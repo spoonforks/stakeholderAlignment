@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marineterrein stakeholder-value alignment graph</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f7f4;
+    color: #222;
+  }
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 22px;
+  }
+  h1 {
+    font-size: 24px;
+    margin: 0 0 8px 0;
+  }
+  .subtitle {
+    max-width: 920px;
+    line-height: 1.45;
+    color: #444;
+    margin-bottom: 16px;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 330px;
+    gap: 18px;
+    align-items: start;
+  }
+  svg {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    width: 100%;
+    height: auto;
+  }
+  .panel {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .panel h2 {
+    font-size: 16px;
+    margin: 4px 0 10px;
+  }
+  .legend-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 7px 0;
+    font-size: 13px;
+  }
+  .swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .value-list {
+    font-size: 12px;
+    line-height: 1.35;
+    padding-left: 18px;
+  }
+  .tooltip {
+    position: fixed;
+    max-width: 360px;
+    background: rgba(255,255,255,0.97);
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    padding: 10px 12px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.16);
+    font-size: 13px;
+    line-height: 1.35;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 10;
+  }
+  .node-label {
+    font-size: 12px;
+    paint-order: stroke;
+    stroke: white;
+    stroke-width: 4px;
+    stroke-linejoin: round;
+    fill: #111;
+  }
+  .edge-label {
+    font-size: 10px;
+    fill: #555;
+    paint-order: stroke;
+    stroke: white;
+    stroke-width: 3px;
+  }
+  .controls {
+    margin: 12px 0;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 14px;
+  }
+  input[type="range"] {
+    width: 230px;
+  }
+  .note {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+    margin-top: 12px;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Marineterrein stakeholder-value alignment graph</h1>
+  <div class="subtitle">
+    Nodes are stakeholders. Edge thickness is Jaccard value-alignment: shared stated values divided by all values held by either party.
+    Dashed red edges indicate an explicitly important conflict relation, even when value alignment is low.
+  </div>
+
+  <div class="controls">
+    <label for="threshold">Minimum alignment shown: <strong id="thresholdValue">0.25</strong></label>
+    <input id="threshold" type="range" min="0" max="1" step="0.05" value="0.25">
+    <label><input id="showConflicts" type="checkbox" checked> Always show conflict edges</label>
+  </div>
+
+  <div class="layout">
+    <svg id="graph" viewBox="0 0 1200 860" role="img" aria-label="Stakeholder value alignment graph"></svg>
+    <div class="panel">
+      <h2>Stakeholder categories</h2>
+      <div id="typeLegend"></div>
+      <h2>Values</h2>
+      <ol class="value-list" id="valueLegend"></ol>
+      <div class="note">
+        Node size = number of values attached to that stakeholder. Edge label = alignment weight. Hover over nodes or edges for details.
+      </div>
+    </div>
+  </div>
+</div>
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const graph = {"nodes": [{"id": "municipality", "label": "Municipality of Amsterdam", "type": "public", "value_count": 8, "values": ["V1", "V2", "V3", "V4", "V5", "V6", "V8", "V10"], "value_labels": ["Collective value creation / anti-extraction", "Democratic or cooperative governance", "Innovation, learning, experimentation", "Ecological wellbeing, circularity, biodiversity", "Public accessibility, livability, meeting, recreation", "Social inclusion, care, local employment, affordability", "Heritage, identity, continuity of place", "Financial feasibility / land-value / development logic"], "x": 855.1249984270335, "y": 253.8999285133417, "color": "#7a7a7a"}, {"id": "rvb_state", "label": "RVB / Dutch State", "type": "public", "value_count": 3, "values": ["V1", "V8", "V10"], "value_labels": ["Collective value creation / anti-extraction", "Heritage, identity, continuity of place", "Financial feasibility / land-value / development logic"], "x": 907.7397509703967, "y": 392.6336291208499, "color": "#7a7a7a"}, {"id": "defence", "label": "Defence", "type": "public", "value_count": 3, "values": ["V5", "V7", "V8"], "value_labels": ["Public accessibility, livability, meeting, recreation", "Resilience / strategic autonomy", "Heritage, identity, continuity of place"], "x": 744.0641833335683, "y": 155.50863204750493, "color": "#7a7a7a"}, {"id": "collectief", "label": "Marineterrein Collectief / current users", "type": "community", "value_count": 5, "values": ["V1", "V2", "V3", "V5", "V6"], "value_labels": ["Collective value creation / anti-extraction", "Democratic or cooperative governance", "Innovation, learning, experimentation", "Public accessibility, livability, meeting, recreation", "Social inclusion, care, local employment, affordability"], "x": 889.8550352324786, "y": 539.927514983186, "color": "#3d7dd8"}, {"id": "okc", "label": "OKC / AMS / AHK / Codam / ROC", "type": "knowledge", "value_count": 3, "values": ["V3", "V5", "V6"], "value_labels": ["Innovation, learning, experimentation", "Public accessibility, livability, meeting, recreation", "Social inclusion, care, local employment, affordability"], "x": 674.1878559291429, "y": 730.9919634020762, "color": "#8a5bd8"}, {"id": "residents", "label": "WOM / local residents", "type": "community", "value_count": 5, "values": ["V1", "V2", "V5", "V6", "V8"], "value_labels": ["Collective value creation / anti-extraction", "Democratic or cooperative governance", "Public accessibility, livability, meeting, recreation", "Social inclusion, care, local employment, affordability", "Heritage, identity, continuity of place"], "x": 805.5680240546465, "y": 662.0383319330414, "color": "#3d7dd8"}, {"id": "amsterdammers", "label": "Broader Amsterdammers / visitors", "type": "public", "value_count": 2, "values": ["V5", "V6"], "value_labels": ["Public accessibility, livability, meeting, recreation", "Social inclusion, care, local employment, affordability"], "x": 600.0, "y": 120.0, "color": "#7a7a7a"}, {"id": "nature_future", "label": "Nature / future generations", "type": "ecological", "value_count": 5, "values": ["V1", "V2", "V4", "V6", "V7"], "value_labels": ["Collective value creation / anti-extraction", "Democratic or cooperative governance", "Ecological wellbeing, circularity, biodiversity", "Social inclusion, care, local employment, affordability", "Resilience / strategic autonomy"], "x": 292.26024902960324, "y": 392.6336291208498, "color": "#3f9b61"}, {"id": "vulnerable", "label": "De Regenboog / vulnerable groups", "type": "social", "value_count": 3, "values": ["V1", "V5", "V6"], "value_labels": ["Collective value creation / anti-extraction", "Public accessibility, livability, meeting, recreation", "Social inclusion, care, local employment, affordability"], "x": 525.8121440708571, "y": 730.9919634020762, "color": "#d8843d"}, {"id": "local_coop", "label": "Local work cooperative", "type": "social", "value_count": 5, "values": ["V1", "V2", "V5", "V6", "V9"], "value_labels": ["Collective value creation / anti-extraction", "Democratic or cooperative governance", "Public accessibility, livability, meeting, recreation", "Social inclusion, care, local employment, affordability", "Mission-driven / non-profit-maximising enterprise"], "x": 394.43197594535354, "y": 662.0383319330414, "color": "#d8843d"}, {"id": "startups", "label": "Start-ups / companies", "type": "market_knowledge", "value_count": 3, "values": ["V3", "V9", "V10"], "value_labels": ["Innovation, learning, experimentation", "Mission-driven / non-profit-maximising enterprise", "Financial feasibility / land-value / development logic"], "x": 344.8750015729663, "y": 253.89992851334196, "color": "#b65a8a"}, {"id": "crcl", "label": "CRCL PARK / circular actors", "type": "ecological", "value_count": 5, "values": ["V2", "V3", "V4", "V5", "V6"], "value_labels": ["Democratic or cooperative governance", "Innovation, learning, experimentation", "Ecological wellbeing, circularity, biodiversity", "Public accessibility, livability, meeting, recreation", "Social inclusion, care, local employment, affordability"], "x": 310.14496476752146, "y": 539.9275149831861, "color": "#3f9b61"}, {"id": "developers", "label": "Market developers / investors", "type": "market", "value_count": 1, "values": ["V10"], "value_labels": ["Financial feasibility / land-value / development logic"], "x": 455.93581666643183, "y": 155.50863204750488, "color": "#b44444"}], "edges": [{"source": "municipality", "target": "rvb_state", "weight": 0.38, "shared_values": ["V1", "V8", "V10"], "conflict_type": ""}, {"source": "municipality", "target": "collectief", "weight": 0.62, "shared_values": ["V1", "V2", "V3", "V5", "V6"], "conflict_type": "institutional_control_vs_user_control"}, {"source": "municipality", "target": "okc", "weight": 0.38, "shared_values": ["V3", "V5", "V6"], "conflict_type": ""}, {"source": "municipality", "target": "residents", "weight": 0.62, "shared_values": ["V1", "V2", "V5", "V6", "V8"], "conflict_type": "consultation_vs_co_decision"}, {"source": "municipality", "target": "amsterdammers", "weight": 0.25, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "municipality", "target": "nature_future", "weight": 0.44, "shared_values": ["V1", "V2", "V4", "V6"], "conflict_type": ""}, {"source": "municipality", "target": "vulnerable", "weight": 0.38, "shared_values": ["V1", "V5", "V6"], "conflict_type": ""}, {"source": "municipality", "target": "local_coop", "weight": 0.44, "shared_values": ["V1", "V2", "V5", "V6"], "conflict_type": ""}, {"source": "municipality", "target": "crcl", "weight": 0.62, "shared_values": ["V2", "V3", "V4", "V5", "V6"], "conflict_type": ""}, {"source": "rvb_state", "target": "collectief", "weight": 0.14, "shared_values": ["V1"], "conflict_type": "land_value_vs_collective_stewardship"}, {"source": "rvb_state", "target": "residents", "weight": 0.33, "shared_values": ["V1", "V8"], "conflict_type": "land_transaction_vs_democratic_control"}, {"source": "rvb_state", "target": "developers", "weight": 0.33, "shared_values": ["V10"], "conflict_type": "financial_extraction"}, {"source": "defence", "target": "residents", "weight": 0.33, "shared_values": ["V5", "V8"], "conflict_type": ""}, {"source": "defence", "target": "amsterdammers", "weight": 0.25, "shared_values": ["V5"], "conflict_type": "security_privacy_vs_public_openness"}, {"source": "collectief", "target": "okc", "weight": 0.6, "shared_values": ["V3", "V5", "V6"], "conflict_type": ""}, {"source": "collectief", "target": "residents", "weight": 0.67, "shared_values": ["V1", "V2", "V5", "V6"], "conflict_type": ""}, {"source": "collectief", "target": "amsterdammers", "weight": 0.4, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "collectief", "target": "nature_future", "weight": 0.43, "shared_values": ["V1", "V2", "V6"], "conflict_type": ""}, {"source": "collectief", "target": "vulnerable", "weight": 0.6, "shared_values": ["V1", "V5", "V6"], "conflict_type": ""}, {"source": "collectief", "target": "local_coop", "weight": 0.67, "shared_values": ["V1", "V2", "V5", "V6"], "conflict_type": ""}, {"source": "collectief", "target": "startups", "weight": 0.14, "shared_values": ["V3"], "conflict_type": "growth_logic_vs_mission_governance"}, {"source": "collectief", "target": "crcl", "weight": 0.67, "shared_values": ["V2", "V3", "V5", "V6"], "conflict_type": ""}, {"source": "okc", "target": "residents", "weight": 0.33, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "okc", "target": "amsterdammers", "weight": 0.67, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "okc", "target": "vulnerable", "weight": 0.5, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "okc", "target": "local_coop", "weight": 0.33, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "okc", "target": "crcl", "weight": 0.6, "shared_values": ["V3", "V5", "V6"], "conflict_type": ""}, {"source": "residents", "target": "amsterdammers", "weight": 0.4, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "residents", "target": "nature_future", "weight": 0.43, "shared_values": ["V1", "V2", "V6"], "conflict_type": ""}, {"source": "residents", "target": "vulnerable", "weight": 0.6, "shared_values": ["V1", "V5", "V6"], "conflict_type": ""}, {"source": "residents", "target": "local_coop", "weight": 0.67, "shared_values": ["V1", "V2", "V5", "V6"], "conflict_type": ""}, {"source": "residents", "target": "crcl", "weight": 0.43, "shared_values": ["V2", "V5", "V6"], "conflict_type": ""}, {"source": "amsterdammers", "target": "vulnerable", "weight": 0.67, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "amsterdammers", "target": "local_coop", "weight": 0.4, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "amsterdammers", "target": "crcl", "weight": 0.4, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "nature_future", "target": "vulnerable", "weight": 0.33, "shared_values": ["V1", "V6"], "conflict_type": ""}, {"source": "nature_future", "target": "local_coop", "weight": 0.43, "shared_values": ["V1", "V2", "V6"], "conflict_type": ""}, {"source": "nature_future", "target": "crcl", "weight": 0.43, "shared_values": ["V2", "V4", "V6"], "conflict_type": ""}, {"source": "nature_future", "target": "developers", "weight": 0.0, "shared_values": [], "conflict_type": "extraction_vs_ecological_limits"}, {"source": "vulnerable", "target": "local_coop", "weight": 0.6, "shared_values": ["V1", "V5", "V6"], "conflict_type": ""}, {"source": "vulnerable", "target": "crcl", "weight": 0.33, "shared_values": ["V5", "V6"], "conflict_type": ""}, {"source": "local_coop", "target": "crcl", "weight": 0.43, "shared_values": ["V2", "V5", "V6"], "conflict_type": ""}, {"source": "local_coop", "target": "developers", "weight": 0.0, "shared_values": [], "conflict_type": "financial_tendering_vs_social_procurement"}, {"source": "startups", "target": "developers", "weight": 0.33, "shared_values": ["V10"], "conflict_type": ""}], "value_legend": [{"code": "V1", "label": "Collective value creation / anti-extraction"}, {"code": "V2", "label": "Democratic or cooperative governance"}, {"code": "V3", "label": "Innovation, learning, experimentation"}, {"code": "V4", "label": "Ecological wellbeing, circularity, biodiversity"}, {"code": "V5", "label": "Public accessibility, livability, meeting, recreation"}, {"code": "V6", "label": "Social inclusion, care, local employment, affordability"}, {"code": "V7", "label": "Resilience / strategic autonomy"}, {"code": "V8", "label": "Heritage, identity, continuity of place"}, {"code": "V9", "label": "Mission-driven / non-profit-maximising enterprise"}, {"code": "V10", "label": "Financial feasibility / land-value / development logic"}], "type_colors": {"public": "#7a7a7a", "community": "#3d7dd8", "knowledge": "#8a5bd8", "social": "#d8843d", "ecological": "#3f9b61", "market_knowledge": "#b65a8a", "market": "#b44444"}};
+const svg = document.getElementById("graph");
+const tooltip = document.getElementById("tooltip");
+const thresholdInput = document.getElementById("threshold");
+const thresholdValue = document.getElementById("thresholdValue");
+const showConflicts = document.getElementById("showConflicts");
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderLegends() {
+  const typeLegend = document.getElementById("typeLegend");
+  const used = [...new Set(graph.nodes.map(n => n.type))];
+  typeLegend.innerHTML = used.map(t => `
+    <div class="legend-row"><span class="swatch" style="background:${graph.type_colors[t]}"></span><span>${esc(t.replaceAll("_", " "))}</span></div>
+  `).join("");
+
+  const valueLegend = document.getElementById("valueLegend");
+  valueLegend.innerHTML = graph.value_legend.map(v => `<li><strong>${esc(v.code)}:</strong> ${esc(v.label)}</li>`).join("");
+}
+
+function showTip(html, event) {
+  tooltip.innerHTML = html;
+  tooltip.style.opacity = 1;
+  tooltip.style.left = (event.clientX + 12) + "px";
+  tooltip.style.top = (event.clientY + 12) + "px";
+}
+function hideTip() { tooltip.style.opacity = 0; }
+
+function draw() {
+  const threshold = parseFloat(thresholdInput.value);
+  thresholdValue.textContent = threshold.toFixed(2);
+  const alwaysConflicts = showConflicts.checked;
+  svg.innerHTML = "";
+
+  const nodeById = Object.fromEntries(graph.nodes.map(n => [n.id, n]));
+  const visibleEdges = graph.edges.filter(e => e.weight >= threshold || (alwaysConflicts && e.conflict_type));
+
+  const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+  defs.innerHTML = `
+    <marker id="none"></marker>
+  `;
+  svg.appendChild(defs);
+
+  // Edges
+  visibleEdges.forEach(e => {
+    const s = nodeById[e.source], t = nodeById[e.target];
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", s.x); line.setAttribute("y1", s.y);
+    line.setAttribute("x2", t.x); line.setAttribute("y2", t.y);
+    line.setAttribute("stroke", e.conflict_type ? "#b44444" : "#8a8a8a");
+    line.setAttribute("stroke-opacity", e.conflict_type ? "0.72" : "0.46");
+    line.setAttribute("stroke-width", 1 + e.weight * 9);
+    if (e.conflict_type) line.setAttribute("stroke-dasharray", "8 6");
+    line.addEventListener("mousemove", ev => showTip(`
+      <strong>${esc(s.label)} ↔ ${esc(t.label)}</strong><br>
+      Alignment: <strong>${e.weight.toFixed(2)}</strong><br>
+      Shared values: ${e.shared_values.length ? esc(e.shared_values.join(", ")) : "none"}<br>
+      ${e.conflict_type ? "Conflict: <strong>" + esc(e.conflict_type.replaceAll("_", " ")) + "</strong>" : ""}
+    `, ev));
+    line.addEventListener("mouseleave", hideTip);
+    svg.appendChild(line);
+
+    if (e.weight >= threshold) {
+      const tx = (s.x + t.x) / 2, ty = (s.y + t.y) / 2;
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("x", tx);
+      label.setAttribute("y", ty);
+      label.setAttribute("text-anchor", "middle");
+      label.setAttribute("class", "edge-label");
+      label.textContent = e.weight.toFixed(2);
+      svg.appendChild(label);
+    }
+  });
+
+  // Nodes
+  graph.nodes.forEach(n => {
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    const radius = 13 + n.value_count * 2.4;
+
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", n.x);
+    circle.setAttribute("cy", n.y);
+    circle.setAttribute("r", radius);
+    circle.setAttribute("fill", n.color);
+    circle.setAttribute("stroke", "#222");
+    circle.setAttribute("stroke-width", "1.2");
+    circle.setAttribute("opacity", "0.93");
+    circle.addEventListener("mousemove", ev => showTip(`
+      <strong>${esc(n.label)}</strong><br>
+      Category: ${esc(n.type.replaceAll("_", " "))}<br>
+      Value count: <strong>${n.value_count}</strong><br>
+      <br><strong>Values</strong><br>
+      ${n.value_labels.map((v, i) => esc(n.values[i] + ": " + v)).join("<br>")}
+    `, ev));
+    circle.addEventListener("mouseleave", hideTip);
+    g.appendChild(circle);
+
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", n.x);
+    text.setAttribute("y", n.y + radius + 15);
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("class", "node-label");
+    const words = n.label.split(" ");
+    let line = "", lines = [];
+    words.forEach(w => {
+      const test = line ? line + " " + w : w;
+      if (test.length > 24) { lines.push(line); line = w; } else { line = test; }
+    });
+    if (line) lines.push(line);
+    lines.slice(0, 3).forEach((ln, i) => {
+      const tspan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+      tspan.setAttribute("x", n.x);
+      tspan.setAttribute("dy", i === 0 ? 0 : 14);
+      tspan.textContent = ln;
+      text.appendChild(tspan);
+    });
+    g.appendChild(text);
+    svg.appendChild(g);
+  });
+}
+
+renderLegends();
+draw();
+thresholdInput.addEventListener("input", draw);
+showConflicts.addEventListener("change", draw);
+</script>
+</body>
+</html>
