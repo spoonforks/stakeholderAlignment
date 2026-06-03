@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marineterrein SMCE Studio</title>
+<style>
+  :root {
+    --bg: #f5f2ea;
+    --panel: #fffdf8;
+    --ink: #1f231d;
+    --muted: #667068;
+    --line: #d7d2c6;
+    --accent: #284b63;
+    --accent-soft: #dbe7ee;
+    --olive: #5f7a61;
+    --sand: #c49a6c;
+    --rose: #9b5d67;
+    --shadow: 0 10px 28px rgba(27, 34, 24, 0.08);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: radial-gradient(circle at top left, #fcfaf4 0%, var(--bg) 55%, #efe9dc 100%);
+    color: var(--ink);
+  }
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .title-wrap {
+    max-width: 980px;
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  h1 {
+    margin: 0 0 10px 0;
+    font-size: 30px;
+    line-height: 1.1;
+  }
+  .subtitle {
+    color: #455149;
+    line-height: 1.5;
+    max-width: 920px;
+  }
+  .view-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    background: rgba(255,255,255,0.82);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+  }
+  .view-switch a {
+    text-decoration: none;
+    color: #59635d;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .view-switch a:hover {
+    background: #ece8de;
+    color: var(--ink);
+  }
+  .view-switch a.active {
+    background: var(--ink);
+    color: #f7f3ea;
+  }
+  .overview {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 18px;
+  }
+  .panel h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+  }
+  .panel h3 {
+    margin: 0 0 10px;
+    font-size: 15px;
+  }
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .step {
+    border: 1px solid #e3ddd0;
+    border-radius: 14px;
+    padding: 12px;
+    background: #fffaf1;
+  }
+  .step-num {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .step strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+  .step p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .summary-card {
+    border: 1px solid #e3ddd0;
+    border-radius: 14px;
+    padding: 14px;
+    background: linear-gradient(180deg, #fffdf8 0%, #faf5ea 100%);
+  }
+  .summary-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .summary-value {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .summary-copy {
+    margin: 0;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin: 0 0 18px;
+  }
+  .toolbar button, .toolbar input, .toolbar select {
+    font: inherit;
+  }
+  .toolbar button {
+    border: 1px solid #cfd7d2;
+    background: white;
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 9px 14px;
+    cursor: pointer;
+  }
+  .toolbar button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #f3f7fa;
+  }
+  .toolbar .meta {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.95fr;
+    gap: 18px;
+  }
+  .stack {
+    display: grid;
+    gap: 18px;
+  }
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .section-title p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border-bottom: 1px solid #e9e3d8;
+    padding: 9px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  td {
+    font-size: 13px;
+  }
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    border: 1px solid #d4d0c6;
+    background: #fffdf8;
+    border-radius: 10px;
+    padding: 8px 10px;
+    color: var(--ink);
+  }
+  input[type="range"] {
+    width: 100%;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+  .dimension-card {
+    border: 1px solid #e4dece;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .dimension-header {
+    padding: 14px 16px 12px;
+    background: linear-gradient(180deg, #f7f2e7 0%, #f0eadb 100%);
+    border-bottom: 1px solid #e2dbc9;
+  }
+  .dimension-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .dimension-top strong {
+    font-size: 15px;
+  }
+  .dimension-copy {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+  .dimension-weight {
+    min-width: 124px;
+  }
+  .criterion-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .rank-list {
+    display: grid;
+    gap: 10px;
+  }
+  .rank-item {
+    display: grid;
+    grid-template-columns: 42px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    border: 1px solid #e6e0d3;
+    border-radius: 14px;
+    padding: 12px;
+    background: #fffaf2;
+  }
+  .rank-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+  }
+  .rank-item strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  .rank-note {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .score-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #efe8d8;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .matrix {
+    overflow-x: auto;
+  }
+  .matrix table td, .matrix table th {
+    text-align: center;
+    min-width: 78px;
+  }
+  .matrix-label {
+    text-align: left !important;
+    min-width: 160px !important;
+    position: sticky;
+    left: 0;
+    background: var(--panel);
+  }
+  .matrix-cell {
+    border-radius: 10px;
+    padding: 8px 6px;
+    font-weight: 700;
+  }
+  .insight-list {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 13px;
+  }
+  .mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .robustness-list {
+    display: grid;
+    gap: 8px;
+  }
+  .robustness-row {
+    display: grid;
+    grid-template-columns: 170px 1fr 62px;
+    gap: 10px;
+    align-items: center;
+    font-size: 12px;
+  }
+  .bar-track {
+    position: relative;
+    height: 12px;
+    border-radius: 999px;
+    background: #e4ddd0;
+    overflow: hidden;
+  }
+  .bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, var(--accent) 0%, #3c728f 100%);
+    border-radius: 999px;
+  }
+  .subtle {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .footnote {
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .footnote a {
+    color: var(--accent);
+  }
+  @media (max-width: 1180px) {
+    .overview, .main-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 900px) {
+    .topbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .view-switch {
+      align-self: flex-start;
+    }
+    .process-steps, .summary-grid, .mini-grid {
+      grid-template-columns: 1fr;
+    }
+    .robustness-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <div class="title-wrap">
+      <div class="eyebrow">SMCE Studio</div>
+      <h1>Marineterrein post-growth erfpacht collaboration framework</h1>
+      <div class="subtitle">
+        This page reconstructs the core SOCRATES-style Social Multi-Criteria Evaluation workflow for the Marineterrein case:
+        compare agreement alternatives, structure criteria, score impacts, aggregate a non-compensatory technical ranking,
+        test stakeholder equity, and stress-test the result before drafting a collective erfpacht agreement.
+      </div>
+    </div>
+    <nav class="view-switch" aria-label="Project views">
+      <a href="./index.html">Stakeholders</a>
+      <a href="./graph.html">Knowledge graph</a>
+      <a class="active" href="./smce.html">SMCE tool</a>
+    </nav>
+  </div>
+
+  <div class="overview">
+    <div class="panel">
+      <h2>SMCE process adapted from SOCRATES</h2>
+      <div class="process-steps">
+        <div class="step"><div class="step-num">Step 1</div><strong>Frame alternatives</strong><p>Define competing erfpacht governance packages instead of evaluating one preferred model in isolation.</p></div>
+        <div class="step"><div class="step-num">Step 2</div><strong>Structure dimensions</strong><p>Translate post-growth aims into explicit dimensions, objectives, and criteria.</p></div>
+        <div class="step"><div class="step-num">Step 3</div><strong>Build the impact matrix</strong><p>Score each alternative against each criterion using a common 1-5 impact scale.</p></div>
+        <div class="step"><div class="step-num">Step 4</div><strong>Technical ranking</strong><p>Use weighted pairwise criterion wins and a Kemeny-style compromise ranking rather than a simple fully compensatory average.</p></div>
+        <div class="step"><div class="step-num">Step 5</div><strong>Equity analysis</strong><p>Compare how stakeholder groups rate the alternatives and detect coalition proximity or conflict.</p></div>
+        <div class="step"><div class="step-num">Step 6</div><strong>Sensitivity and robustness</strong><p>Test exclusions, boosted priorities, and random weight combinations before using the ranking in negotiation.</p></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Case fit</h2>
+      <div class="summary-grid" id="summaryGrid"></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="primary" id="recomputeBtn">Recompute SMCE</button>
+    <button id="resetBtn">Reset Marineterrein defaults</button>
+    <button id="exportBtn">Export scenario JSON</button>
+    <label class="meta">Global robustness simulations
+      <input id="simCount" type="number" min="100" max="5000" step="100" value="1200" style="width:92px;margin-left:6px;">
+    </label>
+    <label class="meta">Random seed
+      <input id="seedInput" type="number" min="1" max="999999" step="1" value="1018" style="width:92px;margin-left:6px;">
+    </label>
+  </div>
+
+  <div class="main-grid">
+    <div class="stack">
+      <div class="panel">
+        <div class="section-title">
+          <div>
+            <h2>1. Agreement alternatives</h2>
+            <p>These are the alternatives the collective erfpacht discussion is comparing. They are editable.</p>
+          </div>
+        </div>
+        <div id="alternativesTable"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <div>
+            <h2>2. Dimensions, criteria, and impact matrix</h2>
+            <p>Dimension weights shape the macro-political priorities. Criterion weights shape how each dimension is operationalised.</p>
+          </div>
+        </div>
+        <div id="dimensionsPanel"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <div>
+            <h2>3. Stakeholder equity matrix</h2>
+            <p>Each actor rates how acceptable each alternative is for them. Actor weights express representation importance in the negotiation table.</p>
+          </div>
+        </div>
+        <div id="actorsTable"></div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="panel">
+        <div class="section-title">
+          <div>
+            <h2>4. Technical ranking</h2>
+            <p>Non-compensatory ranking from weighted pairwise criterion wins.</p>
+          </div>
+        </div>
+        <div id="technicalRanking" class="rank-list"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <div>
+            <h2>5. Equity ranking</h2>
+            <p>Social compromise ranking from weighted stakeholder preferences.</p>
+          </div>
+        </div>
+        <div id="socialRanking" class="rank-list"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <div>
+            <h2>6. Recommendation logic</h2>
+            <p>The agreement pathway should survive both technical and social scrutiny.</p>
+          </div>
+        </div>
+        <div id="recommendationPanel"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <div>
+            <h2>7. Sensitivity checks</h2>
+            <p>Tests inspired by the SOCRATES sensitivity stage.</p>
+          </div>
+        </div>
+        <div class="mini-grid">
+          <div>
+            <h3>Criterion exclusion</h3>
+            <div id="criterionSensitivity"></div>
+          </div>
+          <div>
+            <h3>Dimension boost to 50%</h3>
+            <div id="dimensionSensitivity"></div>
+          </div>
+        </div>
+        <div class="mini-grid" style="margin-top:14px;">
+          <div>
+            <h3>Actor boost to 50%</h3>
+            <div id="actorSensitivity"></div>
+          </div>
+          <div>
+            <h3>Global robustness</h3>
+            <div id="robustnessPanel"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <div>
+            <h2>8. Stakeholder distance matrix</h2>
+            <p>Smaller distances indicate easier coalition-building around a shared erfpacht package.</p>
+          </div>
+        </div>
+        <div id="distanceMatrix" class="matrix"></div>
+        <div style="margin-top:12px;">
+          <h3>Negotiation insights</h3>
+          <ul id="negotiationInsights" class="insight-list"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    Method note: this page reconstructs the core SOCRATES / SMCE workflow for a public-facing static web tool. It uses
+    weighted pairwise comparisons with a Kemeny-style ranking search to avoid a purely compensatory average, then adds
+    stakeholder equity and robustness checks for the Marineterrein post-growth erfpacht case.
+    Official references: <a href="https://knowledge4policy.ec.europa.eu/projects-activities/socrates-social-multi-criteria-assessment-european-policies_en" target="_blank" rel="noreferrer">European Commission SOCRATES</a>,
+    <a href="https://web.jrc.ec.europa.eu/policy-model-inventory/explore/models/model-socrates/" target="_blank" rel="noreferrer">JRC model inventory</a>,
+    <a href="https://publications.jrc.ec.europa.eu/repository/handle/JRC131755" target="_blank" rel="noreferrer">JRC manual on social multi-criteria evaluation</a>.
+  </div>
+</div>
+
+<script>
+const defaultState = {
+  alternatives: [
+    {
+      id: "municipal",
+      name: "Mission-locked municipal erfpacht",
+      description: "Municipality keeps strong steering power and writes mission, affordability, and anti-extraction clauses directly into a long-term erfpacht package."
+    },
+    {
+      id: "coop",
+      name: "Cooperative of cooperatives erfpacht",
+      description: "A federated user cooperative receives development and use rights under municipal ground ownership, with strong member governance across work, housing, culture, and commons."
+    },
+    {
+      id: "clt",
+      name: "Public-common CLT hybrid",
+      description: "Municipal land ownership combines with a CLT or steward-style guardian body that holds veto power against speculation and protects the mission across generations."
+    },
+    {
+      id: "phased",
+      name: "Phased stewardship erfpacht",
+      description: "The current curated model is formalised first, then gradually converted into deeper resident and user governance as housing and long-term investment are added."
+    }
+  ],
+  dimensions: [
+    {
+      id: "publicValue",
+      label: "Social and public value",
+      description: "Does the agreement preserve Marineterrein as a shared urban resource rather than a closed real-estate product?",
+      weight: 30,
+      criteria: [
+        { id: "access", label: "Public accessibility and common use", weight: 34, goal: "max", note: "Open waterfront, shared spaces, events, learning, recreation." },
+        { id: "affordability", label: "Affordability for mission-driven tenants", weight: 33, goal: "max", note: "Ability to hold social, cultural, and experimental uses over time." },
+        { id: "existingUsers", label: "Protection of existing users", weight: 33, goal: "max", note: "Formal continuity for current organisations and informal value creators." }
+      ]
+    },
+    {
+      id: "governance",
+      label: "Governance and rights",
+      description: "Can the agreement institutionalise democratic representation and prevent later capture?",
+      weight: 30,
+      criteria: [
+        { id: "representation", label: "Democratic representation quality", weight: 36, goal: "max", note: "Depth of voice for users, neighbours, and public-interest actors." },
+        { id: "missionLock", label: "Anti-speculation and mission lock", weight: 36, goal: "max", note: "Asset lock, resale control, veto rights, and anti-extraction design." },
+        { id: "legalFit", label: "Fit with Amsterdam erfpacht practice", weight: 28, goal: "max", note: "Administrative and legal implementability inside the existing Dutch framework." }
+      ]
+    },
+    {
+      id: "ecology",
+      label: "Ecological regeneration",
+      description: "Does the agreement support post-growth land stewardship inside ecological limits?",
+      weight: 15,
+      criteria: [
+        { id: "adaptiveReuse", label: "Adaptive reuse and embodied carbon", weight: 52, goal: "max", note: "Bias toward reuse and staged development rather than demolition-first growth." },
+        { id: "circularity", label: "Circularity and ecological stewardship", weight: 48, goal: "max", note: "Circular maintenance, biodiversity, low-extraction land management." }
+      ]
+    },
+    {
+      id: "finance",
+      label: "Finance and delivery",
+      description: "Can the agreement be delivered, maintained, and defended politically without reverting to speculative logic?",
+      weight: 25,
+      criteria: [
+        { id: "municipalFeasibility", label: "Municipal financial feasibility", weight: 35, goal: "max", note: "Likelihood that the municipality can carry and defend the model." },
+        { id: "localRetention", label: "Local value retention", weight: 35, goal: "max", note: "How strongly value circulates back into the district rather than leaking out." },
+        { id: "phasing", label: "Phasing without displacement shocks", weight: 30, goal: "max", note: "Capacity to deliver gradually while keeping the terrain alive." }
+      ]
+    }
+  ],
+  scores: {
+    access: { municipal: 4, coop: 4, clt: 5, phased: 5 },
+    affordability: { municipal: 3, coop: 5, clt: 4, phased: 4 },
+    existingUsers: { municipal: 3, coop: 5, clt: 4, phased: 5 },
+    representation: { municipal: 3, coop: 5, clt: 4, phased: 4 },
+    missionLock: { municipal: 3, coop: 4, clt: 5, phased: 4 },
+    legalFit: { municipal: 5, coop: 3, clt: 3, phased: 4 },
+    adaptiveReuse: { municipal: 3, coop: 4, clt: 4, phased: 5 },
+    circularity: { municipal: 3, coop: 4, clt: 4, phased: 5 },
+    municipalFeasibility: { municipal: 5, coop: 3, clt: 3, phased: 4 },
+    localRetention: { municipal: 3, coop: 5, clt: 5, phased: 4 },
+    phasing: { municipal: 3, coop: 3, clt: 3, phased: 5 }
+  },
+  actors: [
+    { id: "municipality", label: "Municipality of Amsterdam", weight: 22, ratings: { municipal: 5, coop: 3, clt: 4, phased: 4 } },
+    { id: "users", label: "Marineterrein Collectief / current users", weight: 20, ratings: { municipal: 2, coop: 5, clt: 4, phased: 5 } },
+    { id: "residents", label: "WOM / surrounding residents", weight: 16, ratings: { municipal: 3, coop: 4, clt: 5, phased: 4 } },
+    { id: "knowledge", label: "Knowledge coalition (AMS / AHK / Codam)", weight: 12, ratings: { municipal: 3, coop: 4, clt: 4, phased: 5 } },
+    { id: "nature", label: "Nature and future generations", weight: 18, ratings: { municipal: 2, coop: 4, clt: 5, phased: 5 } },
+    { id: "rvb", label: "RVB / Dutch State", weight: 12, ratings: { municipal: 5, coop: 2, clt: 3, phased: 4 } }
+  ]
+};
+
+let state = deepClone(defaultState);
+
+function deepClone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function esc(text) {
+  return String(text).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;"
+  }[c]));
+}
+
+function sum(list) {
+  return list.reduce((total, value) => total + value, 0);
+}
+
+function flatCriteria(dimensions = state.dimensions) {
+  return dimensions.flatMap((dimension) => {
+    const dimensionSum = sum(dimension.criteria.map((criterion) => Number(criterion.weight) || 0)) || 1;
+    return dimension.criteria.map((criterion) => ({
+      ...criterion,
+      dimensionId: dimension.id,
+      dimensionLabel: dimension.label,
+      dimensionWeight: Number(dimension.weight) || 0,
+      localWeight: (Number(criterion.weight) || 0) / dimensionSum
+    }));
+  });
+}
+
+function criterionWeights(dimensions = state.dimensions) {
+  const dims = dimensions.map((dimension) => ({
+    ...dimension,
+    weight: Number(dimension.weight) || 0
+  }));
+  const dimensionSum = sum(dims.map((dimension) => dimension.weight)) || 1;
+  const weights = {};
+
+  dims.forEach((dimension) => {
+    const criteriaSum = sum(dimension.criteria.map((criterion) => Number(criterion.weight) || 0)) || 1;
+    dimension.criteria.forEach((criterion) => {
+      const globalWeight = (dimension.weight / dimensionSum) * ((Number(criterion.weight) || 0) / criteriaSum);
+      weights[criterion.id] = globalWeight;
+    });
+  });
+
+  return weights;
+}
+
+function normalizeScores(scores = state.scores, dimensions = state.dimensions) {
+  const criteria = flatCriteria(dimensions);
+  const result = {};
+
+  criteria.forEach((criterion) => {
+    const values = state.alternatives.map((alternative) => Number(scores[criterion.id]?.[alternative.id]) || 0);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    result[criterion.id] = {};
+
+    state.alternatives.forEach((alternative) => {
+      const raw = Number(scores[criterion.id]?.[alternative.id]) || 0;
+      let normalized;
+      if (max === min) {
+        normalized = 0.5;
+      } else {
+        normalized = (raw - min) / (max - min);
+      }
+      if (criterion.goal === "min") {
+        normalized = 1 - normalized;
+      }
+      result[criterion.id][alternative.id] = normalized;
+    });
+  });
+
+  return result;
+}
+
+function permutationScore(order, support) {
+  let total = 0;
+  for (let i = 0; i < order.length; i += 1) {
+    for (let j = i + 1; j < order.length; j += 1) {
+      total += support[order[i]][order[j]];
+    }
+  }
+  return total;
+}
+
+function permute(values) {
+  const output = [];
+  function inner(remaining, prefix) {
+    if (!remaining.length) {
+      output.push(prefix);
+      return;
+    }
+    remaining.forEach((value, index) => {
+      const next = remaining.slice();
+      next.splice(index, 1);
+      inner(next, prefix.concat(value));
+    });
+  }
+  inner(values, []);
+  return output;
+}
+
+function rankBySupport(support) {
+  const ids = state.alternatives.map((alternative) => alternative.id);
+  const allOrders = permute(ids);
+  let bestOrder = allOrders[0];
+  let bestScore = -Infinity;
+
+  allOrders.forEach((order) => {
+    const score = permutationScore(order, support);
+    if (score > bestScore) {
+      bestScore = score;
+      bestOrder = order;
+    }
+  });
+
+  return { order: bestOrder, score: bestScore };
+}
+
+function computeTechnicalRanking(customDimensions = state.dimensions, customScores = state.scores) {
+  const weights = criterionWeights(customDimensions);
+  const normalized = normalizeScores(customScores, customDimensions);
+  const support = {};
+  const explanation = {};
+  const alternatives = state.alternatives.map((alternative) => alternative.id);
+
+  alternatives.forEach((left) => {
+    support[left] = {};
+    explanation[left] = {};
+    alternatives.forEach((right) => {
+      support[left][right] = 0;
+      explanation[left][right] = [];
+      if (left === right) {
+        return;
+      }
+      flatCriteria(customDimensions).forEach((criterion) => {
+        const leftScore = normalized[criterion.id][left];
+        const rightScore = normalized[criterion.id][right];
+        if (leftScore > rightScore + 1e-9) {
+          support[left][right] += weights[criterion.id];
+          explanation[left][right].push({
+            criterion: criterion.label,
+            weight: weights[criterion.id],
+            delta: leftScore - rightScore
+          });
+        }
+      });
+    });
+  });
+
+  const ranking = rankBySupport(support);
+  return { support, explanation, ranking, weights, normalized };
+}
+
+function normalizeActorWeights(actors = state.actors) {
+  const total = sum(actors.map((actor) => Number(actor.weight) || 0)) || 1;
+  const weights = {};
+  actors.forEach((actor) => {
+    weights[actor.id] = (Number(actor.weight) || 0) / total;
+  });
+  return weights;
+}
+
+function computeSocialRanking(customActors = state.actors) {
+  const actorWeights = normalizeActorWeights(customActors);
+  const support = {};
+  const alternatives = state.alternatives.map((alternative) => alternative.id);
+  alternatives.forEach((left) => {
+    support[left] = {};
+    alternatives.forEach((right) => {
+      support[left][right] = 0;
+      if (left === right) {
+        return;
+      }
+      customActors.forEach((actor) => {
+        const leftScore = Number(actor.ratings[left]) || 0;
+        const rightScore = Number(actor.ratings[right]) || 0;
+        if (leftScore > rightScore) {
+          support[left][right] += actorWeights[actor.id];
+        }
+      });
+    });
+  });
+
+  const ranking = rankBySupport(support);
+  return { support, ranking, actorWeights };
+}
+
+function actorDistanceMatrix(actors = state.actors) {
+  const matrix = {};
+  actors.forEach((left) => {
+    matrix[left.id] = {};
+    actors.forEach((right) => {
+      let distance = 0;
+      state.alternatives.forEach((alternative) => {
+        distance += Math.abs((Number(left.ratings[alternative.id]) || 0) - (Number(right.ratings[alternative.id]) || 0));
+      });
+      matrix[left.id][right.id] = distance / (state.alternatives.length * 4);
+    });
+  });
+  return matrix;
+}
+
+function buildCriterionSensitivity() {
+  const base = computeTechnicalRanking();
+  return flatCriteria().map((criterion) => {
+    const dimensions = deepClone(state.dimensions);
+    dimensions.forEach((dimension) => {
+      dimension.criteria = dimension.criteria.filter((item) => item.id !== criterion.id);
+    });
+    const filtered = dimensions.filter((dimension) => dimension.criteria.length);
+    const ranking = computeTechnicalRanking(filtered).ranking.order[0];
+    return {
+      criterion: criterion.label,
+      topAlternative: ranking,
+      changed: ranking !== base.ranking.order[0]
+    };
+  });
+}
+
+function boostDimensionRanking(targetDimensionId) {
+  const dimensions = deepClone(state.dimensions);
+  const otherWeight = dimensions.length > 1 ? 50 / (dimensions.length - 1) : 50;
+  dimensions.forEach((dimension) => {
+    dimension.weight = dimension.id === targetDimensionId ? 50 : otherWeight;
+  });
+  return computeTechnicalRanking(dimensions).ranking.order[0];
+}
+
+function boostActorRanking(targetActorId) {
+  const actors = deepClone(state.actors);
+  const otherWeight = actors.length > 1 ? 50 / (actors.length - 1) : 50;
+  actors.forEach((actor) => {
+    actor.weight = actor.id === targetActorId ? 50 : otherWeight;
+  });
+  return computeSocialRanking(actors).ranking.order[0];
+}
+
+function mulberry32(seed) {
+  return function next() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function samplePositiveWeights(count, random) {
+  const values = [];
+  for (let i = 0; i < count; i += 1) {
+    values.push(-Math.log(Math.max(1e-9, 1 - random())));
+  }
+  const total = sum(values) || 1;
+  return values.map((value) => value / total);
+}
+
+function runRobustness(simCount, seed) {
+  const random = mulberry32(seed);
+  const alternatives = state.alternatives.map((alternative) => alternative.id);
+  const counts = {};
+  alternatives.forEach((alternative) => {
+    counts[alternative] = Array(alternatives.length).fill(0);
+  });
+
+  for (let i = 0; i < simCount; i += 1) {
+    const dimensions = deepClone(state.dimensions);
+    const dimensionWeights = samplePositiveWeights(dimensions.length, random);
+    dimensions.forEach((dimension, dimensionIndex) => {
+      dimension.weight = dimensionWeights[dimensionIndex] * 100;
+      const criterionWeights = samplePositiveWeights(dimension.criteria.length, random);
+      dimension.criteria.forEach((criterion, criterionIndex) => {
+        criterion.weight = criterionWeights[criterionIndex] * 100;
+      });
+    });
+
+    const order = computeTechnicalRanking(dimensions).ranking.order;
+    order.forEach((alternativeId, rankIndex) => {
+      counts[alternativeId][rankIndex] += 1;
+    });
+  }
+
+  return counts;
+}
+
+function altName(id) {
+  return state.alternatives.find((alternative) => alternative.id === id)?.name || id;
+}
+
+function colorForValue(value) {
+  const alpha = 0.15 + (1 - value) * 0.45;
+  return `rgba(40, 75, 99, ${alpha.toFixed(3)})`;
+}
+
+function matrixCell(value) {
+  const safe = Math.max(0, Math.min(1, value));
+  return `<div class="matrix-cell" style="background:${colorForValue(safe)};">${safe.toFixed(2)}</div>`;
+}
+
+function renderSummary(results) {
+  const technicalTop = altName(results.technical.ranking.order[0]);
+  const socialTop = altName(results.social.ranking.order[0]);
+  const criterionCount = flatCriteria().length;
+  const actorCount = state.actors.length;
+  const grid = document.getElementById("summaryGrid");
+  grid.innerHTML = `
+    <div class="summary-card">
+      <div class="summary-label">Current technical leader</div>
+      <div class="summary-value">${esc(technicalTop)}</div>
+      <p class="summary-copy">Best compromise on the weighted impact matrix under the current technical assumptions.</p>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Current social leader</div>
+      <div class="summary-value">${esc(socialTop)}</div>
+      <p class="summary-copy">Best compromise once stakeholder preferences and representation weights are aggregated.</p>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Model size</div>
+      <div class="summary-value">${criterionCount} criteria / ${actorCount} actors</div>
+      <p class="summary-copy">Enough structure to support negotiation while still staying readable in workshops.</p>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Negotiation use</div>
+      <div class="summary-value">Collective erfpacht drafting</div>
+      <p class="summary-copy">Use the ranking as a discussion scaffold, then iterate weights and scores live with stakeholders.</p>
+    </div>
+  `;
+}
+
+function renderAlternatives() {
+  const container = document.getElementById("alternativesTable");
+  container.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th style="width:26%;">Alternative</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${state.alternatives.map((alternative, index) => `
+          <tr>
+            <td>
+              <input type="text" data-role="alt-name" data-index="${index}" value="${esc(alternative.name)}">
+            </td>
+            <td>
+              <textarea data-role="alt-desc" data-index="${index}">${esc(alternative.description)}</textarea>
+            </td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+function renderDimensions() {
+  const container = document.getElementById("dimensionsPanel");
+  container.innerHTML = state.dimensions.map((dimension, dimensionIndex) => `
+    <div class="dimension-card">
+      <div class="dimension-header">
+        <div class="dimension-top">
+          <strong>${esc(dimension.label)}</strong>
+          <div class="dimension-weight">
+            <label class="subtle">Dimension weight</label>
+            <input type="number" min="0" max="100" step="1" data-role="dimension-weight" data-dimension-index="${dimensionIndex}" value="${dimension.weight}">
+          </div>
+        </div>
+        <p class="dimension-copy">${esc(dimension.description)}</p>
+      </div>
+      <div style="padding: 0 16px 10px;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:27%;">Criterion</th>
+              <th style="width:12%;">Weight</th>
+              <th style="width:11%;">Goal</th>
+              ${state.alternatives.map((alternative) => `<th>${esc(alternative.name)}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${dimension.criteria.map((criterion, criterionIndex) => `
+              <tr>
+                <td>
+                  <strong>${esc(criterion.label)}</strong>
+                  <div class="criterion-meta">
+                    <span class="tag">${esc(dimension.label)}</span>
+                    <span>${esc(criterion.note)}</span>
+                  </div>
+                </td>
+                <td><input type="number" min="0" max="100" step="1" data-role="criterion-weight" data-dimension-index="${dimensionIndex}" data-criterion-index="${criterionIndex}" value="${criterion.weight}"></td>
+                <td>
+                  <select data-role="criterion-goal" data-dimension-index="${dimensionIndex}" data-criterion-index="${criterionIndex}">
+                    <option value="max" ${criterion.goal === "max" ? "selected" : ""}>max</option>
+                    <option value="min" ${criterion.goal === "min" ? "selected" : ""}>min</option>
+                  </select>
+                </td>
+                ${state.alternatives.map((alternative) => `
+                  <td><input type="number" min="1" max="5" step="0.1" data-role="score" data-criterion-id="${criterion.id}" data-alt-id="${alternative.id}" value="${state.scores[criterion.id][alternative.id]}"></td>
+                `).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderActors() {
+  const container = document.getElementById("actorsTable");
+  container.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th style="width:25%;">Actor</th>
+          <th style="width:12%;">Weight</th>
+          ${state.alternatives.map((alternative) => `<th>${esc(alternative.name)}</th>`).join("")}
+        </tr>
+      </thead>
+      <tbody>
+        ${state.actors.map((actor, actorIndex) => `
+          <tr>
+            <td><strong>${esc(actor.label)}</strong></td>
+            <td><input type="number" min="0" max="100" step="1" data-role="actor-weight" data-actor-index="${actorIndex}" value="${actor.weight}"></td>
+            ${state.alternatives.map((alternative) => `
+              <td><input type="number" min="1" max="5" step="0.1" data-role="actor-rating" data-actor-index="${actorIndex}" data-alt-id="${alternative.id}" value="${actor.ratings[alternative.id]}"></td>
+            `).join("")}
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+function rankingMarkup(order, support, label) {
+  return order.map((alternativeId, rankIndex) => {
+    const beats = state.alternatives
+      .filter((alternative) => alternative.id !== alternativeId)
+      .map((alternative) => support[alternativeId][alternative.id])
+      .reduce((total, value) => total + value, 0);
+    return `
+      <div class="rank-item">
+        <div class="rank-badge">${rankIndex + 1}</div>
+        <div>
+          <strong>${esc(altName(alternativeId))}</strong>
+          <div class="rank-note">${esc(state.alternatives.find((alternative) => alternative.id === alternativeId)?.description || "")}</div>
+        </div>
+        <div class="score-pill">${label}: ${beats.toFixed(2)}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function buildRecommendation(results, robustness) {
+  const technicalTop = results.technical.ranking.order[0];
+  const socialTop = results.social.ranking.order[0];
+  const overlap = results.technical.ranking.order.slice(0, 2).includes(socialTop);
+  const robustnessTop = Object.entries(robustness)
+    .map(([alternativeId, ranks]) => ({ alternativeId, firstPlace: ranks[0] }))
+    .sort((a, b) => b.firstPlace - a.firstPlace)[0];
+
+  let headline;
+  let body;
+  if (technicalTop === socialTop) {
+    headline = `${altName(technicalTop)} is the current convergence candidate`;
+    body = `It leads both the technical and the equity rankings, which means it is currently the strongest base for a collective erfpacht agreement.`;
+  } else if (overlap) {
+    headline = `${altName(socialTop)} is the best negotiation bridge`;
+    body = `It wins the social compromise ranking and stays inside the top technical tier, so it is the strongest bargaining platform if legitimacy matters as much as delivery.`;
+  } else {
+    headline = `There is a technical-social split that needs explicit negotiation`;
+    body = `${altName(technicalTop)} leads technically while ${altName(socialTop)} leads socially. The agreement should reconcile feasibility and legitimacy before locking the lease structure.`;
+  }
+
+  return `
+    <div class="summary-card" style="margin-bottom:12px;">
+      <div class="summary-label">Current recommendation</div>
+      <div class="summary-value" style="font-size:20px;">${esc(headline)}</div>
+      <p class="summary-copy">${esc(body)}</p>
+    </div>
+    <ul class="insight-list">
+      <li>The most robust technical alternative in random weight simulations is <strong>${esc(altName(robustnessTop.alternativeId))}</strong> with a first-place frequency of <strong>${(robustnessTop.firstPlace * 100).toFixed(0)}%</strong>.</li>
+      <li>If the top technical and social alternatives diverge, use the pair as the core negotiation set rather than forcing immediate closure on one option.</li>
+      <li>The collective erfpacht draft should carry the mission-lock and representation clauses from the socially stronger options even if the final delivery model is administratively more conservative.</li>
+    </ul>
+  `;
+}
+
+function renderSensitivityList(items, mapper) {
+  return `
+    <div class="robustness-list">
+      ${items.map(mapper).join("")}
+    </div>
+  `;
+}
+
+function renderRobustness(robustness, simCount) {
+  const container = document.getElementById("robustnessPanel");
+  const rows = state.alternatives.map((alternative) => ({
+    id: alternative.id,
+    name: alternative.name,
+    firstPlace: robustness[alternative.id][0] / simCount
+  })).sort((left, right) => right.firstPlace - left.firstPlace);
+
+  container.innerHTML = `
+    <div class="subtle" style="margin-bottom:10px;">Monte Carlo test over ${simCount} random criterion-weight configurations.</div>
+    <div class="robustness-list">
+      ${rows.map((row) => `
+        <div class="robustness-row">
+          <div>${esc(row.name)}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${(row.firstPlace * 100).toFixed(1)}%;"></div></div>
+          <div>${(row.firstPlace * 100).toFixed(1)}%</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderDistanceMatrix(matrix) {
+  const container = document.getElementById("distanceMatrix");
+  container.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th class="matrix-label">Actor</th>
+          ${state.actors.map((actor) => `<th>${esc(actor.label)}</th>`).join("")}
+        </tr>
+      </thead>
+      <tbody>
+        ${state.actors.map((left) => `
+          <tr>
+            <td class="matrix-label"><strong>${esc(left.label)}</strong></td>
+            ${state.actors.map((right) => `<td>${matrixCell(matrix[left.id][right.id])}</td>`).join("")}
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+function renderInsights(matrix, technical, social, robustness) {
+  const pairs = [];
+  state.actors.forEach((left, leftIndex) => {
+    state.actors.slice(leftIndex + 1).forEach((right) => {
+      pairs.push({
+        left: left.label,
+        right: right.label,
+        distance: matrix[left.id][right.id]
+      });
+    });
+  });
+  pairs.sort((a, b) => a.distance - b.distance);
+  const closest = pairs[0];
+  const furthest = pairs[pairs.length - 1];
+  const robustTop = Object.entries(robustness)
+    .map(([alternativeId, ranks]) => ({ alternativeId, first: ranks[0] }))
+    .sort((a, b) => b.first - a.first)[0];
+
+  document.getElementById("negotiationInsights").innerHTML = `
+    <li>The closest coalition in current preference space is <strong>${esc(closest.left)}</strong> + <strong>${esc(closest.right)}</strong> (distance ${closest.distance.toFixed(2)}).</li>
+    <li>The hardest alignment gap is between <strong>${esc(furthest.left)}</strong> and <strong>${esc(furthest.right)}</strong> (distance ${furthest.distance.toFixed(2)}).</li>
+    <li><strong>${esc(altName(robustTop.alternativeId))}</strong> is the most stable technical leader under random weighting.</li>
+    <li>The negotiation should start from the intersection between technical rank #1 <strong>${esc(altName(technical.ranking.order[0]))}</strong> and social rank #1 <strong>${esc(altName(social.ranking.order[0]))}</strong>.</li>
+  `;
+}
+
+function recompute() {
+  const simCount = Math.max(100, Number(document.getElementById("simCount").value) || 1200);
+  const seed = Math.max(1, Number(document.getElementById("seedInput").value) || 1018);
+  const technical = computeTechnicalRanking();
+  const social = computeSocialRanking();
+  const criterionSensitivity = buildCriterionSensitivity();
+  const dimensionSensitivity = state.dimensions.map((dimension) => ({
+    dimension: dimension.label,
+    topAlternative: boostDimensionRanking(dimension.id)
+  }));
+  const actorSensitivity = state.actors.map((actor) => ({
+    actor: actor.label,
+    topAlternative: boostActorRanking(actor.id)
+  }));
+  const robustness = runRobustness(simCount, seed);
+  const distances = actorDistanceMatrix();
+
+  renderSummary({ technical, social });
+  document.getElementById("technicalRanking").innerHTML = rankingMarkup(technical.ranking.order, technical.support, "support");
+  document.getElementById("socialRanking").innerHTML = rankingMarkup(social.ranking.order, social.support, "support");
+  document.getElementById("recommendationPanel").innerHTML = buildRecommendation({ technical, social }, robustness);
+  document.getElementById("criterionSensitivity").innerHTML = renderSensitivityList(
+    criterionSensitivity,
+    (item) => `
+      <div class="robustness-row">
+        <div>${esc(item.criterion)}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${item.changed ? "100" : "56"}%; background:${item.changed ? "linear-gradient(90deg, #9b5d67 0%, #be7683 100%)" : "linear-gradient(90deg, #5f7a61 0%, #7f9d82 100%)"};"></div></div>
+        <div>${esc(altName(item.topAlternative))}</div>
+      </div>
+    `
+  );
+  document.getElementById("dimensionSensitivity").innerHTML = renderSensitivityList(
+    dimensionSensitivity,
+    (item) => `
+      <div class="robustness-row">
+        <div>${esc(item.dimension)}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%;"></div></div>
+        <div>${esc(altName(item.topAlternative))}</div>
+      </div>
+    `
+  );
+  document.getElementById("actorSensitivity").innerHTML = renderSensitivityList(
+    actorSensitivity,
+    (item) => `
+      <div class="robustness-row">
+        <div>${esc(item.actor)}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%; background:linear-gradient(90deg, #c49a6c 0%, #d6ae82 100%);"></div></div>
+        <div>${esc(altName(item.topAlternative))}</div>
+      </div>
+    `
+  );
+  renderRobustness(robustness, simCount);
+  renderDistanceMatrix(distances);
+  renderInsights(distances, technical, social, robustness);
+}
+
+function syncStateFromInputs() {
+  document.querySelectorAll("[data-role='alt-name']").forEach((input) => {
+    const index = Number(input.dataset.index);
+    state.alternatives[index].name = input.value.trim() || defaultState.alternatives[index].name;
+  });
+  document.querySelectorAll("[data-role='alt-desc']").forEach((input) => {
+    const index = Number(input.dataset.index);
+    state.alternatives[index].description = input.value.trim() || defaultState.alternatives[index].description;
+  });
+  document.querySelectorAll("[data-role='dimension-weight']").forEach((input) => {
+    const dimensionIndex = Number(input.dataset.dimensionIndex);
+    state.dimensions[dimensionIndex].weight = Number(input.value) || 0;
+  });
+  document.querySelectorAll("[data-role='criterion-weight']").forEach((input) => {
+    const dimensionIndex = Number(input.dataset.dimensionIndex);
+    const criterionIndex = Number(input.dataset.criterionIndex);
+    state.dimensions[dimensionIndex].criteria[criterionIndex].weight = Number(input.value) || 0;
+  });
+  document.querySelectorAll("[data-role='criterion-goal']").forEach((select) => {
+    const dimensionIndex = Number(select.dataset.dimensionIndex);
+    const criterionIndex = Number(select.dataset.criterionIndex);
+    state.dimensions[dimensionIndex].criteria[criterionIndex].goal = select.value;
+  });
+  document.querySelectorAll("[data-role='score']").forEach((input) => {
+    const criterionId = input.dataset.criterionId;
+    const altId = input.dataset.altId;
+    state.scores[criterionId][altId] = Number(input.value) || 0;
+  });
+  document.querySelectorAll("[data-role='actor-weight']").forEach((input) => {
+    const actorIndex = Number(input.dataset.actorIndex);
+    state.actors[actorIndex].weight = Number(input.value) || 0;
+  });
+  document.querySelectorAll("[data-role='actor-rating']").forEach((input) => {
+    const actorIndex = Number(input.dataset.actorIndex);
+    const altId = input.dataset.altId;
+    state.actors[actorIndex].ratings[altId] = Number(input.value) || 0;
+  });
+}
+
+function renderAll() {
+  renderAlternatives();
+  renderDimensions();
+  renderActors();
+  recompute();
+}
+
+document.addEventListener("change", (event) => {
+  if (event.target.matches("input, textarea, select")) {
+    syncStateFromInputs();
+    if (event.target.dataset.role === "alt-name" || event.target.dataset.role === "alt-desc") {
+      renderAll();
+    } else {
+      recompute();
+    }
+  }
+});
+
+document.getElementById("recomputeBtn").addEventListener("click", () => {
+  syncStateFromInputs();
+  recompute();
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  state = deepClone(defaultState);
+  renderAll();
+});
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+  syncStateFromInputs();
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "marineterrein-smce-scenario.json";
+  link.click();
+  URL.revokeObjectURL(url);
+});
+
+renderAll();
+</script>
+</body>
+</html>
