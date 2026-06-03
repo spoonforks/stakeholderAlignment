@@ -16,9 +16,43 @@
     margin: 0 auto;
     padding: 22px;
   }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
   h1 {
     font-size: 24px;
     margin: 0 0 8px 0;
+  }
+  .view-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    background: rgba(255,255,255,0.86);
+    border: 1px solid #d7d6ce;
+    border-radius: 999px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+  }
+  .view-switch a {
+    text-decoration: none;
+    color: #555;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .view-switch a:hover {
+    background: #ecebe3;
+    color: #222;
+  }
+  .view-switch a.active {
+    background: #222;
+    color: #f7f7f4;
   }
   .subtitle {
     max-width: 920px;
@@ -117,15 +151,30 @@
   }
   @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr; }
+    .topbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .view-switch {
+      align-self: flex-start;
+    }
   }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>Marineterrein stakeholder-value alignment graph</h1>
-  <div class="subtitle">
-    Nodes are stakeholders. Edge thickness is Jaccard value-alignment: shared stated values divided by all values held by either party.
-    Dashed red edges indicate an explicitly important conflict relation, even when value alignment is low.
+  <div class="topbar">
+    <div>
+      <h1>Marineterrein stakeholder-value alignment graph</h1>
+      <div class="subtitle">
+        Nodes are stakeholders. Edge thickness is Jaccard value-alignment: shared stated values divided by all values held by either party.
+        Dashed red edges indicate an explicitly important conflict relation, even when value alignment is low.
+      </div>
+    </div>
+    <nav class="view-switch" aria-label="Graph views">
+      <a class="active" href="./index.html">Stakeholders</a>
+      <a href="./graph.html">Knowledge graph</a>
+    </nav>
   </div>
 
   <div class="controls">
