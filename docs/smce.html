@@ -6,30 +6,75 @@
 <title>Marineterrein SMCE Studio</title>
 <style>
   :root {
-    --bg: #f5f2ea;
-    --panel: #fffdf8;
-    --ink: #1f231d;
-    --muted: #667068;
-    --line: #d7d2c6;
-    --accent: #284b63;
-    --accent-soft: #dbe7ee;
-    --olive: #5f7a61;
-    --sand: #c49a6c;
-    --rose: #9b5d67;
-    --shadow: 0 10px 28px rgba(27, 34, 24, 0.08);
+    --bg: #f6f1e5;
+    --panel: rgba(255, 252, 246, 0.94);
+    --panel-strong: #fffdf8;
+    --panel-soft: #f3ead7;
+    --line: #dbd1bc;
+    --line-strong: #c7baa2;
+    --ink: #1f241d;
+    --muted: #687066;
+    --accent: #264f69;
+    --accent-2: #c57f4d;
+    --accent-3: #738c5b;
+    --accent-4: #8e5d77;
+    --highlight: #f0c86f;
+    --success: #436c45;
+    --warning: #8f5a33;
+    --danger: #934e5b;
+    --shadow: 0 14px 42px rgba(30, 38, 29, 0.10);
+    --radius-xl: 24px;
+    --radius-lg: 18px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+    --transition: 0.2s ease;
+    --actor-1: #7ea6d5;
+    --actor-2: #b2cc8b;
+    --actor-3: #e29a73;
+    --actor-4: #c7a3c7;
+    --actor-5: #cb8a69;
+    --actor-6: #9d8a77;
+    --alt-1: #cddfeb;
+    --alt-2: #dce8ca;
+    --alt-3: #f0dcc2;
+    --alt-4: #e7d3df;
   }
+
   * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: radial-gradient(circle at top left, #fcfaf4 0%, var(--bg) 55%, #efe9dc 100%);
+    font-family: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0) 32%),
+      radial-gradient(circle at top right, rgba(224, 196, 145, 0.18) 0%, rgba(224, 196, 145, 0) 28%),
+      linear-gradient(180deg, #f8f4ea 0%, var(--bg) 58%, #ede3cf 100%);
     color: var(--ink);
   }
-  .container {
-    max-width: 1440px;
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button {
+    border: 0;
+    background: none;
+    color: inherit;
+  }
+
+  .page {
+    max-width: 1480px;
     margin: 0 auto;
     padding: 24px;
   }
+
   .topbar {
     display: flex;
     justify-content: space-between;
@@ -37,282 +82,669 @@
     gap: 18px;
     margin-bottom: 18px;
   }
+
   .title-wrap {
     max-width: 980px;
   }
+
   .eyebrow {
-    display: inline-block;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 10px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(38, 79, 105, 0.11);
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     font-weight: 700;
   }
+
   h1 {
     margin: 0 0 10px 0;
-    font-size: 30px;
-    line-height: 1.1;
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
   }
+
   .subtitle {
-    color: #455149;
-    line-height: 1.5;
-    max-width: 920px;
+    margin: 0;
+    max-width: 960px;
+    color: #495348;
+    line-height: 1.6;
+    font-size: 15px;
   }
+
   .view-switch {
     display: inline-flex;
     align-items: center;
     gap: 4px;
     padding: 4px;
-    background: rgba(255,255,255,0.82);
-    border: 1px solid var(--line);
+    border: 1px solid rgba(109, 97, 71, 0.16);
     border-radius: 999px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
     flex-shrink: 0;
   }
+
   .view-switch a {
     text-decoration: none;
-    color: #59635d;
+    color: #556058;
     font-size: 13px;
-    padding: 8px 14px;
+    padding: 9px 14px;
     border-radius: 999px;
-    transition: background 0.18s ease, color 0.18s ease;
+    transition: background var(--transition), color var(--transition), transform var(--transition);
   }
+
   .view-switch a:hover {
-    background: #ece8de;
+    background: #ece5d7;
     color: var(--ink);
   }
+
   .view-switch a.active {
     background: var(--ink);
-    color: #f7f3ea;
+    color: #faf7ef;
   }
-  .overview {
-    display: grid;
-    grid-template-columns: 1.45fr 1fr;
-    gap: 18px;
-    margin-bottom: 18px;
-  }
+
   .panel {
     background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 18px;
+    border: 1px solid rgba(132, 117, 84, 0.16);
+    border-radius: var(--radius-xl);
     box-shadow: var(--shadow);
-    padding: 18px;
+    backdrop-filter: blur(10px);
   }
-  .panel h2 {
-    margin: 0 0 10px;
-    font-size: 18px;
+
+  .hero {
+    padding: 22px;
+    margin-bottom: 18px;
   }
-  .panel h3 {
-    margin: 0 0 10px;
-    font-size: 15px;
+
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 18px;
   }
-  .process-steps {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 10px;
   }
-  .step {
-    border: 1px solid #e3ddd0;
-    border-radius: 14px;
-    padding: 12px;
-    background: #fffaf1;
-  }
-  .step-num {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .step strong {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 14px;
-  }
-  .step p {
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.45;
-    color: var(--muted);
-  }
-  .summary-grid {
+
+  .hero-summary {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
   }
+
   .summary-card {
-    border: 1px solid #e3ddd0;
-    border-radius: 14px;
-    padding: 14px;
-    background: linear-gradient(180deg, #fffdf8 0%, #faf5ea 100%);
+    padding: 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(123, 109, 79, 0.14);
+    background: linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(248, 240, 224, 0.92) 100%);
   }
-  .summary-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
+
+  .summary-label,
+  .micro-label {
+    display: block;
     margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
   }
+
   .summary-value {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 4px;
+    line-height: 1.2;
   }
-  .summary-copy {
+
+  .summary-copy,
+  .subtle {
     margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 13px;
+  }
+
+  .stepper-shell {
+    padding: 16px;
+    margin-bottom: 18px;
+  }
+
+  .stepper {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
+  }
+
+  .step-segment {
+    position: relative;
+    min-width: 64px;
+    flex: 1 1 72px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(102, 95, 76, 0.16);
+    background: rgba(255,255,255,0.78);
+    color: #4d5650;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), transform var(--transition), flex var(--transition), color var(--transition);
+    white-space: nowrap;
+  }
+
+  .step-segment:hover:not(.locked) {
+    transform: translateY(-1px);
+    border-color: rgba(38, 79, 105, 0.28);
+  }
+
+  .step-segment.active {
+    flex: 4 1 330px;
+    background: linear-gradient(90deg, rgba(38, 79, 105, 0.14) 0%, rgba(255,255,255,0.94) 100%);
+    border-color: rgba(38, 79, 105, 0.28);
+    color: var(--accent);
+  }
+
+  .step-segment.complete {
+    background: linear-gradient(180deg, rgba(255,255,255,0.86) 0%, rgba(238, 246, 232, 0.92) 100%);
+    color: var(--success);
+  }
+
+  .step-segment.locked {
+    cursor: not-allowed;
+    color: #9a9488;
+    background: rgba(255,255,255,0.55);
+  }
+
+  .step-segment::after {
+    content: "";
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    width: 16px;
+    height: 2px;
+    transform: translateY(-50%);
+    background: rgba(112, 103, 84, 0.22);
+  }
+
+  .step-segment:last-child::after {
+    display: none;
+  }
+
+  .step-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.92);
+    border: 2px solid currentColor;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .step-copy {
+    min-width: 0;
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: opacity var(--transition), max-width var(--transition);
+  }
+
+  .step-segment.active .step-copy {
+    opacity: 1;
+    max-width: 260px;
+  }
+
+  .step-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 2px;
+  }
+
+  .step-mini {
+    display: block;
     font-size: 12px;
     color: var(--muted);
-    line-height: 1.45;
   }
-  .toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+
+  .workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.72fr);
+    gap: 18px;
+    align-items: start;
+  }
+
+  .main-panel {
+    padding: 22px;
+  }
+
+  .side-column {
+    display: grid;
+    gap: 18px;
+    position: sticky;
+    top: 18px;
+  }
+
+  .side-panel {
+    padding: 18px;
+  }
+
+  .step-kicker {
+    display: inline-flex;
     align-items: center;
-    margin: 0 0 18px;
-  }
-  .toolbar button, .toolbar input, .toolbar select {
-    font: inherit;
-  }
-  .toolbar button {
-    border: 1px solid #cfd7d2;
-    background: white;
-    color: var(--ink);
+    gap: 8px;
+    padding: 6px 10px;
     border-radius: 999px;
-    padding: 9px 14px;
-    cursor: pointer;
-  }
-  .toolbar button.primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #f3f7fa;
-  }
-  .toolbar .meta {
-    font-size: 13px;
-    color: var(--muted);
-  }
-  .main-grid {
-    display: grid;
-    grid-template-columns: 1.15fr 0.95fr;
-    gap: 18px;
-  }
-  .stack {
-    display: grid;
-    gap: 18px;
-  }
-  .section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
+    background: rgba(38, 79, 105, 0.10);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     margin-bottom: 12px;
   }
-  .section-title p {
+
+  .step-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+
+  .step-header h2 {
+    margin: 0 0 8px 0;
+    font-size: clamp(24px, 4vw, 32px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .step-header p {
     margin: 0;
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.45;
+    color: #4d5851;
+    line-height: 1.58;
+    max-width: 880px;
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
+
+  .step-progress {
+    min-width: 124px;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(243, 234, 215, 0.95) 100%);
+    border: 1px solid rgba(124, 110, 80, 0.16);
   }
-  th, td {
-    border-bottom: 1px solid #e9e3d8;
-    padding: 9px 8px;
-    text-align: left;
-    vertical-align: top;
+
+  .card-grid {
+    display: grid;
+    gap: 16px;
   }
-  th {
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 700;
+
+  .alt-card,
+  .dimension-card,
+  .criterion-card,
+  .actor-card,
+  .score-card,
+  .result-card,
+  .stress-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(126, 111, 80, 0.14);
+    background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(248, 241, 226, 0.96) 100%);
+    padding: 18px;
   }
-  td {
-    font-size: 13px;
+
+  .alt-card {
+    display: grid;
+    gap: 14px;
   }
-  input[type="text"], input[type="number"], textarea, select {
-    width: 100%;
-    border: 1px solid #d4d0c6;
-    background: #fffdf8;
-    border-radius: 10px;
-    padding: 8px 10px;
-    color: var(--ink);
-  }
-  input[type="range"] {
-    width: 100%;
-  }
-  textarea {
-    resize: vertical;
-    min-height: 70px;
-  }
-  .dimension-card {
-    border: 1px solid #e4dece;
-    border-radius: 16px;
-    overflow: hidden;
-    margin-bottom: 14px;
-  }
-  .dimension-header {
-    padding: 14px 16px 12px;
-    background: linear-gradient(180deg, #f7f2e7 0%, #f0eadb 100%);
-    border-bottom: 1px solid #e2dbc9;
-  }
-  .dimension-top {
+
+  .alt-card[data-alt-index="0"] { background: linear-gradient(180deg, rgba(205,223,235,0.72) 0%, rgba(255,250,243,0.98) 100%); }
+  .alt-card[data-alt-index="1"] { background: linear-gradient(180deg, rgba(220,232,202,0.82) 0%, rgba(255,250,243,0.98) 100%); }
+  .alt-card[data-alt-index="2"] { background: linear-gradient(180deg, rgba(240,220,194,0.82) 0%, rgba(255,250,243,0.98) 100%); }
+  .alt-card[data-alt-index="3"] { background: linear-gradient(180deg, rgba(231,211,223,0.82) 0%, rgba(255,250,243,0.98) 100%); }
+
+  .card-head {
     display: flex;
     justify-content: space-between;
     gap: 12px;
-    align-items: center;
-    margin-bottom: 8px;
+    align-items: flex-start;
   }
-  .dimension-top strong {
-    font-size: 15px;
-  }
-  .dimension-copy {
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
     margin: 0;
-    font-size: 12px;
-    line-height: 1.45;
-    color: var(--muted);
+    line-height: 1.2;
   }
-  .dimension-weight {
-    min-width: 124px;
+
+  .prompt-list,
+  .insight-list,
+  .helper-list {
+    margin: 0;
+    padding-left: 18px;
+    color: #566158;
+    line-height: 1.55;
+    font-size: 13px;
   }
-  .criterion-meta {
+
+  .prompt-chips {
     display: flex;
-    gap: 10px;
-    align-items: center;
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 4px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
+
+  .chip,
   .tag {
     display: inline-flex;
     align-items: center;
-    padding: 3px 8px;
+    gap: 6px;
+    padding: 7px 10px;
     border-radius: 999px;
-    background: var(--accent-soft);
+    background: rgba(38, 79, 105, 0.09);
     color: var(--accent);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
   }
-  .rank-list {
+
+  .tag.alt {
+    background: rgba(197, 127, 77, 0.13);
+    color: var(--warning);
+  }
+
+  .tag.success {
+    background: rgba(67, 108, 69, 0.13);
+    color: var(--success);
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+
+  .field label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100%;
+    border: 1px solid rgba(115, 102, 73, 0.24);
+    border-radius: 12px;
+    padding: 11px 12px;
+    background: rgba(255,255,255,0.92);
+    color: var(--ink);
+    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: rgba(38, 79, 105, 0.45);
+    box-shadow: 0 0 0 3px rgba(38, 79, 105, 0.12);
+    background: #ffffff;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .weight-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 92px;
+    gap: 12px;
+    align-items: center;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent);
+  }
+
+  .weight-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .weight-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .criterion-grid,
+  .results-grid,
+  .stress-grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .criterion-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .criterion-card {
+    display: grid;
+    gap: 12px;
+  }
+
+  .goal-toggle,
+  .scale-buttons,
+  .actor-tabs,
+  .option-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .goal-pill,
+  .scale-button,
+  .actor-tab {
+    padding: 9px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(106, 98, 77, 0.18);
+    background: rgba(255,255,255,0.9);
+    cursor: pointer;
+    transition: transform var(--transition), border-color var(--transition), background var(--transition), color var(--transition);
+  }
+
+  .goal-pill:hover,
+  .scale-button:hover,
+  .actor-tab:hover {
+    transform: translateY(-1px);
+    border-color: rgba(38, 79, 105, 0.28);
+  }
+
+  .goal-pill.active,
+  .scale-button.active,
+  .actor-tab.active {
+    background: var(--ink);
+    color: #faf7ef;
+    border-color: var(--ink);
+  }
+
+  .goal-pill.active.min {
+    background: var(--danger);
+    border-color: var(--danger);
+  }
+
+  .scale-button {
+    min-width: 66px;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .scale-button span {
+    display: block;
+    font-size: 11px;
+    color: inherit;
+    opacity: 0.82;
+    font-weight: 500;
+  }
+
+  .score-card {
+    display: grid;
+    gap: 12px;
+  }
+
+  .score-row {
+    display: grid;
+    grid-template-columns: minmax(200px, 0.72fr) minmax(0, 1.2fr) 90px;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.58);
+  }
+
+  .score-summary {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  .actor-layout {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.9fr) minmax(0, 1.2fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .donut-shell {
+    display: grid;
+    gap: 14px;
+    justify-items: center;
+  }
+
+  .donut {
+    position: relative;
+    width: min(100%, 290px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55);
+  }
+
+  .donut::after {
+    content: "";
+    position: absolute;
+    inset: 28%;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(247, 240, 225, 0.98) 100%);
+    border: 1px solid rgba(121, 108, 82, 0.16);
+    box-shadow: inset 0 0 18px rgba(0,0,0,0.03);
+  }
+
+  .donut-center {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 1;
+    text-align: center;
+    padding: 0 64px;
+  }
+
+  .donut-center strong {
+    display: block;
+    font-size: 24px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .legend {
+    display: grid;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .legend-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  .legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+  }
+
+  .actor-card {
+    display: grid;
+    gap: 12px;
+  }
+
+  .actor-card[data-actor-index="0"] { border-left: 6px solid var(--actor-1); }
+  .actor-card[data-actor-index="1"] { border-left: 6px solid var(--actor-2); }
+  .actor-card[data-actor-index="2"] { border-left: 6px solid var(--actor-3); }
+  .actor-card[data-actor-index="3"] { border-left: 6px solid var(--actor-4); }
+  .actor-card[data-actor-index="4"] { border-left: 6px solid var(--actor-5); }
+  .actor-card[data-actor-index="5"] { border-left: 6px solid var(--actor-6); }
+
+  .actor-tab[data-actor-index="0"].active { background: var(--actor-1); color: #1e2b32; border-color: transparent; }
+  .actor-tab[data-actor-index="1"].active { background: var(--actor-2); color: #243016; border-color: transparent; }
+  .actor-tab[data-actor-index="2"].active { background: var(--actor-3); color: #3e2415; border-color: transparent; }
+  .actor-tab[data-actor-index="3"].active { background: var(--actor-4); color: #352338; border-color: transparent; }
+  .actor-tab[data-actor-index="4"].active { background: var(--actor-5); color: #372013; border-color: transparent; }
+  .actor-tab[data-actor-index="5"].active { background: var(--actor-6); color: #2a2018; border-color: transparent; }
+
+  .result-card {
+    display: grid;
+    gap: 12px;
+  }
+
+  .ranking-stack {
     display: grid;
     gap: 10px;
   }
+
   .rank-item {
     display: grid;
-    grid-template-columns: 42px 1fr auto;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
     gap: 12px;
     align-items: center;
-    border: 1px solid #e6e0d3;
-    border-radius: 14px;
     padding: 12px;
-    background: #fffaf2;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.74);
+    border: 1px solid rgba(125, 112, 80, 0.11);
   }
+
   .rank-badge {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     display: grid;
     place-items: center;
@@ -320,130 +752,327 @@
     color: white;
     font-weight: 700;
   }
+
   .rank-item strong {
     display: block;
-    font-size: 14px;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
+    font-size: 15px;
   }
-  .rank-note {
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.4;
-  }
+
   .score-pill {
     display: inline-flex;
     align-items: center;
-    padding: 6px 10px;
+    padding: 8px 12px;
     border-radius: 999px;
-    background: #efe8d8;
+    background: rgba(38, 79, 105, 0.10);
+    color: var(--accent);
     font-size: 12px;
     font-weight: 700;
     white-space: nowrap;
   }
-  .matrix {
-    overflow-x: auto;
+
+  .alignment-banner {
+    padding: 16px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(123, 107, 74, 0.16);
+    background: linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(240, 234, 214, 0.98) 100%);
   }
-  .matrix table td, .matrix table th {
-    text-align: center;
-    min-width: 78px;
+
+  .alignment-banner strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 18px;
   }
-  .matrix-label {
-    text-align: left !important;
-    min-width: 160px !important;
-    position: sticky;
-    left: 0;
-    background: var(--panel);
-  }
-  .matrix-cell {
-    border-radius: 10px;
-    padding: 8px 6px;
-    font-weight: 700;
-  }
-  .insight-list {
-    margin: 0;
-    padding-left: 18px;
-    color: var(--muted);
-    line-height: 1.5;
-    font-size: 13px;
-  }
-  .mini-grid {
-    display: grid;
+
+  .stress-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stress-card {
+    display: grid;
     gap: 12px;
   }
-  .robustness-list {
+
+  .bar-stack {
     display: grid;
-    gap: 8px;
+    gap: 10px;
   }
-  .robustness-row {
+
+  .bar-row {
     display: grid;
-    grid-template-columns: 170px 1fr 62px;
+    grid-template-columns: minmax(130px, 0.72fr) minmax(0, 1fr) 84px;
     gap: 10px;
     align-items: center;
-    font-size: 12px;
+    font-size: 13px;
   }
+
   .bar-track {
     position: relative;
     height: 12px;
     border-radius: 999px;
-    background: #e4ddd0;
+    background: #e6ddcb;
     overflow: hidden;
   }
+
   .bar-fill {
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, var(--accent) 0%, #3c728f 100%);
+    inset: 0 auto 0 0;
     border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent) 0%, #3b7592 100%);
   }
-  .subtle {
+
+  .matrix {
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 10px 9px;
+    border-bottom: 1px solid rgba(135, 122, 89, 0.14);
+    text-align: left;
+    vertical-align: top;
+    font-size: 13px;
+  }
+
+  th {
     color: var(--muted);
     font-size: 12px;
-    line-height: 1.45;
+    font-weight: 700;
+    letter-spacing: 0.02em;
   }
-  .footnote {
-    margin-top: 18px;
+
+  .matrix th,
+  .matrix td {
+    text-align: center;
+    min-width: 84px;
+  }
+
+  .matrix-label {
+    min-width: 180px !important;
+    text-align: left !important;
+    position: sticky;
+    left: 0;
+    background: var(--panel-strong);
+    z-index: 1;
+  }
+
+  .matrix-cell {
+    border-radius: 12px;
+    padding: 9px 7px;
+    font-weight: 700;
+  }
+
+  .status-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 999px;
     font-size: 12px;
-    color: var(--muted);
+    font-weight: 700;
+    background: rgba(255,255,255,0.76);
+    border: 1px solid rgba(122, 110, 82, 0.14);
+  }
+
+  .status-pill.warning {
+    color: var(--warning);
+    background: rgba(197, 127, 77, 0.10);
+  }
+
+  .status-pill.success {
+    color: var(--success);
+    background: rgba(67, 108, 69, 0.10);
+  }
+
+  .status-pill.danger {
+    color: var(--danger);
+    background: rgba(147, 78, 91, 0.10);
+  }
+
+  .message {
+    margin-top: 14px;
+    padding: 13px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(143, 90, 51, 0.18);
+    background: rgba(197, 127, 77, 0.08);
+    color: var(--warning);
+    font-size: 13px;
     line-height: 1.5;
   }
+
+  .step-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(134, 122, 89, 0.18);
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(112, 101, 73, 0.16);
+    background: rgba(255,255,255,0.92);
+    color: var(--ink);
+    cursor: pointer;
+    transition: transform var(--transition), background var(--transition), border-color var(--transition), color var(--transition), opacity var(--transition);
+  }
+
+  .button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    border-color: rgba(38, 79, 105, 0.28);
+  }
+
+  .button.primary {
+    background: var(--ink);
+    color: #faf7ef;
+    border-color: var(--ink);
+  }
+
+  .button.accent {
+    background: var(--accent);
+    color: #fbf7ee;
+    border-color: var(--accent);
+  }
+
+  .button.soft {
+    background: rgba(38, 79, 105, 0.08);
+    color: var(--accent);
+    border-color: rgba(38, 79, 105, 0.16);
+  }
+
+  .button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .footnote {
+    margin-top: 20px;
+    padding: 0 4px 26px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
   .footnote a {
     color: var(--accent);
   }
+
   @media (max-width: 1180px) {
-    .overview, .main-grid {
+    .workspace,
+    .actor-layout {
       grid-template-columns: 1fr;
     }
+
+    .side-column {
+      position: static;
+    }
   }
-  @media (max-width: 900px) {
-    .topbar {
+
+  @media (max-width: 980px) {
+    .hero-summary,
+    .criterion-grid,
+    .stress-grid,
+    .field-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .topbar,
+    .hero-top,
+    .step-header {
       flex-direction: column;
       align-items: stretch;
     }
-    .view-switch {
-      align-self: flex-start;
+
+    .hero-actions {
+      justify-content: flex-start;
     }
-    .process-steps, .summary-grid, .mini-grid {
+
+    .step-progress {
+      min-width: 0;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .page {
+      padding: 16px;
+    }
+
+    .main-panel,
+    .side-panel,
+    .hero,
+    .stepper-shell {
+      padding: 16px;
+    }
+
+    .step-segment {
+      min-width: 90px;
+      flex: 0 0 auto;
+    }
+
+    .step-segment.active {
+      min-width: 250px;
+      flex: 0 0 auto;
+    }
+
+    .score-row,
+    .rank-item,
+    .bar-row {
       grid-template-columns: 1fr;
     }
-    .robustness-row {
-      grid-template-columns: 1fr;
+
+    .step-nav {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .nav-actions {
+      width: 100%;
+    }
+
+    .nav-actions .button {
+      flex: 1 1 auto;
     }
   }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="page">
   <div class="topbar">
     <div class="title-wrap">
-      <div class="eyebrow">SMCE Studio</div>
+      <div class="eyebrow">SMCE Workshop Wizard</div>
       <h1>Marineterrein post-growth erfpacht collaboration framework</h1>
-      <div class="subtitle">
-        This page reconstructs the core SOCRATES-style Social Multi-Criteria Evaluation workflow for the Marineterrein case:
-        compare agreement alternatives, structure criteria, score impacts, aggregate a non-compensatory technical ranking,
-        test stakeholder equity, and stress-test the result before drafting a collective erfpacht agreement.
-      </div>
+      <p class="subtitle">
+        A guided reconstruction of the SOCRATES-style Social Multi-Criteria Evaluation process for the Marineterrein case.
+        Workshop participants move from alternatives and shared goals to impact scoring, stakeholder fairness, stress-testing,
+        and a draft direction for a collective erfpacht agreement.
+      </p>
     </div>
     <nav class="view-switch" aria-label="Project views">
       <a href="./index.html">Stakeholders</a>
@@ -452,148 +1081,38 @@
     </nav>
   </div>
 
-  <div class="overview">
-    <div class="panel">
-      <h2>SMCE process adapted from SOCRATES</h2>
-      <div class="process-steps">
-        <div class="step"><div class="step-num">Step 1</div><strong>Frame alternatives</strong><p>Define competing erfpacht governance packages instead of evaluating one preferred model in isolation.</p></div>
-        <div class="step"><div class="step-num">Step 2</div><strong>Structure dimensions</strong><p>Translate post-growth aims into explicit dimensions, objectives, and criteria.</p></div>
-        <div class="step"><div class="step-num">Step 3</div><strong>Build the impact matrix</strong><p>Score each alternative against each criterion using a common 1-5 impact scale.</p></div>
-        <div class="step"><div class="step-num">Step 4</div><strong>Technical ranking</strong><p>Use weighted pairwise criterion wins and a Kemeny-style compromise ranking rather than a simple fully compensatory average.</p></div>
-        <div class="step"><div class="step-num">Step 5</div><strong>Equity analysis</strong><p>Compare how stakeholder groups rate the alternatives and detect coalition proximity or conflict.</p></div>
-        <div class="step"><div class="step-num">Step 6</div><strong>Sensitivity and robustness</strong><p>Test exclusions, boosted priorities, and random weight combinations before using the ranking in negotiation.</p></div>
+  <section class="hero panel">
+    <div class="hero-top">
+      <div>
+        <span class="eyebrow" style="margin-bottom:8px;">Marineterrein case fit</span>
+        <p class="subtitle" style="margin-top:0;">
+          This version keeps the SOCRATES logic of alternatives, technical evidence, stakeholder weights, social ranking, and sensitivity checks,
+          but turns it into a friendlier step-by-step workshop flow for people shaping a collective land agreement.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <button class="button soft" id="resetBtn" type="button">Reset Marineterrein defaults</button>
+        <div class="status-pill" id="autosaveStatus">Autosave ready</div>
       </div>
     </div>
-    <div class="panel">
-      <h2>Case fit</h2>
-      <div class="summary-grid" id="summaryGrid"></div>
-    </div>
-  </div>
+    <div id="heroSummary" class="hero-summary"></div>
+  </section>
 
-  <div class="toolbar">
-    <button class="primary" id="recomputeBtn">Recompute SMCE</button>
-    <button id="resetBtn">Reset Marineterrein defaults</button>
-    <button id="exportBtn">Export scenario JSON</button>
-    <label class="meta">Global robustness simulations
-      <input id="simCount" type="number" min="100" max="5000" step="100" value="1200" style="width:92px;margin-left:6px;">
-    </label>
-    <label class="meta">Random seed
-      <input id="seedInput" type="number" min="1" max="999999" step="1" value="1018" style="width:92px;margin-left:6px;">
-    </label>
-  </div>
+  <section class="stepper-shell panel">
+    <div id="stepBar" class="stepper" aria-label="SMCE steps"></div>
+  </section>
 
-  <div class="main-grid">
-    <div class="stack">
-      <div class="panel">
-        <div class="section-title">
-          <div>
-            <h2>1. Agreement alternatives</h2>
-            <p>These are the alternatives the collective erfpacht discussion is comparing. They are editable.</p>
-          </div>
-        </div>
-        <div id="alternativesTable"></div>
-      </div>
-
-      <div class="panel">
-        <div class="section-title">
-          <div>
-            <h2>2. Dimensions, criteria, and impact matrix</h2>
-            <p>Dimension weights shape the macro-political priorities. Criterion weights shape how each dimension is operationalised.</p>
-          </div>
-        </div>
-        <div id="dimensionsPanel"></div>
-      </div>
-
-      <div class="panel">
-        <div class="section-title">
-          <div>
-            <h2>3. Stakeholder equity matrix</h2>
-            <p>Each actor rates how acceptable each alternative is for them. Actor weights express representation importance in the negotiation table.</p>
-          </div>
-        </div>
-        <div id="actorsTable"></div>
-      </div>
-    </div>
-
-    <div class="stack">
-      <div class="panel">
-        <div class="section-title">
-          <div>
-            <h2>4. Technical ranking</h2>
-            <p>Non-compensatory ranking from weighted pairwise criterion wins.</p>
-          </div>
-        </div>
-        <div id="technicalRanking" class="rank-list"></div>
-      </div>
-
-      <div class="panel">
-        <div class="section-title">
-          <div>
-            <h2>5. Equity ranking</h2>
-            <p>Social compromise ranking from weighted stakeholder preferences.</p>
-          </div>
-        </div>
-        <div id="socialRanking" class="rank-list"></div>
-      </div>
-
-      <div class="panel">
-        <div class="section-title">
-          <div>
-            <h2>6. Recommendation logic</h2>
-            <p>The agreement pathway should survive both technical and social scrutiny.</p>
-          </div>
-        </div>
-        <div id="recommendationPanel"></div>
-      </div>
-
-      <div class="panel">
-        <div class="section-title">
-          <div>
-            <h2>7. Sensitivity checks</h2>
-            <p>Tests inspired by the SOCRATES sensitivity stage.</p>
-          </div>
-        </div>
-        <div class="mini-grid">
-          <div>
-            <h3>Criterion exclusion</h3>
-            <div id="criterionSensitivity"></div>
-          </div>
-          <div>
-            <h3>Dimension boost to 50%</h3>
-            <div id="dimensionSensitivity"></div>
-          </div>
-        </div>
-        <div class="mini-grid" style="margin-top:14px;">
-          <div>
-            <h3>Actor boost to 50%</h3>
-            <div id="actorSensitivity"></div>
-          </div>
-          <div>
-            <h3>Global robustness</h3>
-            <div id="robustnessPanel"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="section-title">
-          <div>
-            <h2>8. Stakeholder distance matrix</h2>
-            <p>Smaller distances indicate easier coalition-building around a shared erfpacht package.</p>
-          </div>
-        </div>
-        <div id="distanceMatrix" class="matrix"></div>
-        <div style="margin-top:12px;">
-          <h3>Negotiation insights</h3>
-          <ul id="negotiationInsights" class="insight-list"></ul>
-        </div>
-      </div>
-    </div>
-  </div>
+  <section class="workspace">
+    <main class="main-panel panel" id="stepPanel"></main>
+    <aside class="side-column">
+      <section class="side-panel panel" id="stepHelper"></section>
+      <section class="side-panel panel" id="liveSnapshot"></section>
+    </aside>
+  </section>
 
   <div class="footnote">
-    Method note: this page reconstructs the core SOCRATES / SMCE workflow for a public-facing static web tool. It uses
-    weighted pairwise comparisons with a Kemeny-style ranking search to avoid a purely compensatory average, then adds
+    Method note: this page reconstructs the core SOCRATES / SMCE workflow in a workshop-friendly static web tool.
+    It uses weighted pairwise comparisons with a Kemeny-style ranking search to avoid a purely compensatory average, then adds
     stakeholder equity and robustness checks for the Marineterrein post-growth erfpacht case.
     Official references: <a href="https://knowledge4policy.ec.europa.eu/projects-activities/socrates-social-multi-criteria-assessment-european-policies_en" target="_blank" rel="noreferrer">European Commission SOCRATES</a>,
     <a href="https://web.jrc.ec.europa.eu/policy-model-inventory/explore/models/model-socrates/" target="_blank" rel="noreferrer">JRC model inventory</a>,
@@ -602,6 +1121,90 @@
 </div>
 
 <script>
+const STORAGE_KEY_STATE = "marineterrein-smce-wizard-state";
+const STORAGE_KEY_UI = "marineterrein-smce-wizard-ui";
+const ACTOR_COLORS = ["var(--actor-1)", "var(--actor-2)", "var(--actor-3)", "var(--actor-4)", "var(--actor-5)", "var(--actor-6)"];
+const IMPACT_SCALE = {
+  1: "weak",
+  2: "limited",
+  3: "mixed",
+  4: "strong",
+  5: "transformative"
+};
+const FAIRNESS_SCALE = {
+  1: "harmful",
+  2: "hard",
+  3: "manageable",
+  4: "good fit",
+  5: "core need"
+};
+const ACTOR_CONTEXT = {
+  municipality: "Holds legal and political delivery power inside Amsterdam's erfpacht system.",
+  users: "Represents current site users who already generate public, cultural, and social value.",
+  residents: "Brings neighbourhood legitimacy, public access concerns, and everyday livability.",
+  knowledge: "Represents learning, experimentation, and knowledge-institution continuity on site.",
+  nature: "Keeps ecological stewardship and long-term public interest visible in the agreement.",
+  rvb: "Carries state-level institutional constraints, transfer logic, and administrative caution."
+};
+const STEP_META = [
+  {
+    title: "Agreement alternatives",
+    short: "Frame the options",
+    what: "Shape the 4 competing erfpacht packages so people are comparing real governance pathways, not abstract ideals.",
+    why: "If the alternatives are vague, every later score becomes political guesswork rather than a shared decision exercise.",
+    next: "The next step turns your post-growth ambitions into weighted goals and criteria."
+  },
+  {
+    title: "Shared goals and criteria",
+    short: "Define what matters",
+    what: "Adjust the dimensions and criteria so the group is explicit about what counts as value at Marineterrein.",
+    why: "This is where hidden priorities become visible: public access, anti-speculation, ecological reuse, and delivery feasibility.",
+    next: "Then the group scores how each alternative performs against those agreed criteria."
+  },
+  {
+    title: "Impact scoring",
+    short: "Score the evidence",
+    what: "Score each alternative on each criterion using the shared 1-5 scale.",
+    why: "This builds the technical impact matrix that SMCE uses before stakeholder politics are added.",
+    next: "After that, you set how much influence each stakeholder group should have in the conversation."
+  },
+  {
+    title: "Stakeholders and influence",
+    short: "Weight the table",
+    what: "Decide how much representation weight each stakeholder group should carry in the negotiation.",
+    why: "SMCE separates technical performance from social legitimacy, so the influence structure must be visible and discussable.",
+    next: "The following step lets each stakeholder perspective express how acceptable each alternative feels to them."
+  },
+  {
+    title: "Fairness and lived impact",
+    short: "Hear each perspective",
+    what: "Rate each alternative from one stakeholder perspective at a time, using plain-language acceptability scores.",
+    why: "This is where hidden conflicts and possible coalitions start to show up before any final agreement is drafted.",
+    next: "Then you compare technical and social outcomes side by side."
+  },
+  {
+    title: "Compare outcomes",
+    short: "See the rankings",
+    what: "Read the technical ranking and the stakeholder ranking together, and look for alignment or tension.",
+    why: "A viable collective erfpacht agreement needs both delivery strength and legitimacy, not just one of them.",
+    next: "The next step stress-tests the result so the group can see how stable the outcome really is."
+  },
+  {
+    title: "Stress-test the result",
+    short: "Probe the weak points",
+    what: "Run sensitivity and robustness checks to see which assumptions matter most and which alternatives stay resilient.",
+    why: "This stops the workshop from over-trusting a ranking that might collapse when one weight or one actor changes.",
+    next: "Finally, the tool turns the findings into a draft agreement direction and coalition map."
+  },
+  {
+    title: "Agreement direction",
+    short: "Draft the path",
+    what: "Use the rankings, robustness checks, and stakeholder distances to frame a collective erfpacht direction.",
+    why: "The point of SMCE here is not a final answer from a machine; it is a better-structured human negotiation.",
+    next: "Export the current scenario to carry it into drafting sessions or presentations."
+  }
+];
+
 const defaultState = {
   alternatives: [
     {
@@ -693,7 +1296,18 @@ const defaultState = {
   ]
 };
 
-let state = deepClone(defaultState);
+let state = normalizeState(defaultState);
+let uiState = {
+  currentStep: 0,
+  maxUnlockedStep: 0,
+  activeActorIndex: 0,
+  simCount: 1200,
+  seed: 1018,
+  lastSavedAt: "",
+  validationMessage: ""
+};
+let lightCache = { signature: "", payload: null };
+let fullCache = { signature: "", payload: null };
 
 function deepClone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -713,32 +1327,79 @@ function sum(list) {
   return list.reduce((total, value) => total + value, 0);
 }
 
+function clampNumber(value, min, max, fallback) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) {
+    return fallback;
+  }
+  return Math.min(max, Math.max(min, numeric));
+}
+
+function normalizeState(candidate) {
+  const safe = deepClone(defaultState);
+  if (!candidate || typeof candidate !== "object") {
+    return safe;
+  }
+
+  safe.alternatives.forEach((alternative, index) => {
+    const source = candidate.alternatives?.[index] || {};
+    alternative.name = String(source.name || alternative.name).trim() || alternative.name;
+    alternative.description = String(source.description || alternative.description).trim() || alternative.description;
+  });
+
+  safe.dimensions.forEach((dimension, dimensionIndex) => {
+    const sourceDimension = candidate.dimensions?.[dimensionIndex] || {};
+    dimension.weight = clampNumber(sourceDimension.weight, 0, 100, dimension.weight);
+    dimension.criteria.forEach((criterion, criterionIndex) => {
+      const sourceCriterion = sourceDimension.criteria?.[criterionIndex] || {};
+      criterion.weight = clampNumber(sourceCriterion.weight, 0, 100, criterion.weight);
+      criterion.goal = sourceCriterion.goal === "min" ? "min" : "max";
+    });
+  });
+
+  safe.dimensions.forEach((dimension) => {
+    dimension.criteria.forEach((criterion) => {
+      safe.scores[criterion.id] = safe.scores[criterion.id] || {};
+      safe.alternatives.forEach((alternative) => {
+        const candidateScore = candidate.scores?.[criterion.id]?.[alternative.id];
+        safe.scores[criterion.id][alternative.id] = clampNumber(candidateScore, 1, 5, safe.scores[criterion.id][alternative.id]);
+      });
+    });
+  });
+
+  safe.actors.forEach((actor, actorIndex) => {
+    const sourceActor = candidate.actors?.[actorIndex] || {};
+    actor.weight = clampNumber(sourceActor.weight, 0, 100, actor.weight);
+    safe.alternatives.forEach((alternative) => {
+      const candidateRating = sourceActor.ratings?.[alternative.id];
+      actor.ratings[alternative.id] = clampNumber(candidateRating, 1, 5, actor.ratings[alternative.id]);
+    });
+  });
+
+  return safe;
+}
+
 function flatCriteria(dimensions = state.dimensions) {
   return dimensions.flatMap((dimension) => {
-    const dimensionSum = sum(dimension.criteria.map((criterion) => Number(criterion.weight) || 0)) || 1;
+    const criteriaSum = sum(dimension.criteria.map((criterion) => Number(criterion.weight) || 0)) || 1;
     return dimension.criteria.map((criterion) => ({
       ...criterion,
       dimensionId: dimension.id,
       dimensionLabel: dimension.label,
       dimensionWeight: Number(dimension.weight) || 0,
-      localWeight: (Number(criterion.weight) || 0) / dimensionSum
+      localWeight: (Number(criterion.weight) || 0) / criteriaSum
     }));
   });
 }
 
 function criterionWeights(dimensions = state.dimensions) {
-  const dims = dimensions.map((dimension) => ({
-    ...dimension,
-    weight: Number(dimension.weight) || 0
-  }));
-  const dimensionSum = sum(dims.map((dimension) => dimension.weight)) || 1;
+  const dimensionSum = sum(dimensions.map((dimension) => Number(dimension.weight) || 0)) || 1;
   const weights = {};
 
-  dims.forEach((dimension) => {
+  dimensions.forEach((dimension) => {
     const criteriaSum = sum(dimension.criteria.map((criterion) => Number(criterion.weight) || 0)) || 1;
     dimension.criteria.forEach((criterion) => {
-      const globalWeight = (dimension.weight / dimensionSum) * ((Number(criterion.weight) || 0) / criteriaSum);
-      weights[criterion.id] = globalWeight;
+      weights[criterion.id] = ((Number(dimension.weight) || 0) / dimensionSum) * ((Number(criterion.weight) || 0) / criteriaSum);
     });
   });
 
@@ -746,10 +1407,9 @@ function criterionWeights(dimensions = state.dimensions) {
 }
 
 function normalizeScores(scores = state.scores, dimensions = state.dimensions) {
-  const criteria = flatCriteria(dimensions);
   const result = {};
 
-  criteria.forEach((criterion) => {
+  flatCriteria(dimensions).forEach((criterion) => {
     const values = state.alternatives.map((alternative) => Number(scores[criterion.id]?.[alternative.id]) || 0);
     const min = Math.min(...values);
     const max = Math.max(...values);
@@ -757,12 +1417,7 @@ function normalizeScores(scores = state.scores, dimensions = state.dimensions) {
 
     state.alternatives.forEach((alternative) => {
       const raw = Number(scores[criterion.id]?.[alternative.id]) || 0;
-      let normalized;
-      if (max === min) {
-        normalized = 0.5;
-      } else {
-        normalized = (raw - min) / (max - min);
-      }
+      let normalized = max === min ? 0.5 : (raw - min) / (max - min);
       if (criterion.goal === "min") {
         normalized = 1 - normalized;
       }
@@ -809,8 +1464,8 @@ function rankBySupport(support) {
   allOrders.forEach((order) => {
     const score = permutationScore(order, support);
     if (score > bestScore) {
-      bestScore = score;
       bestOrder = order;
+      bestScore = score;
     }
   });
 
@@ -848,8 +1503,7 @@ function computeTechnicalRanking(customDimensions = state.dimensions, customScor
     });
   });
 
-  const ranking = rankBySupport(support);
-  return { support, explanation, ranking, weights, normalized };
+  return { support, explanation, ranking: rankBySupport(support), weights, normalized };
 }
 
 function normalizeActorWeights(actors = state.actors) {
@@ -865,6 +1519,7 @@ function computeSocialRanking(customActors = state.actors) {
   const actorWeights = normalizeActorWeights(customActors);
   const support = {};
   const alternatives = state.alternatives.map((alternative) => alternative.id);
+
   alternatives.forEach((left) => {
     support[left] = {};
     alternatives.forEach((right) => {
@@ -882,8 +1537,7 @@ function computeSocialRanking(customActors = state.actors) {
     });
   });
 
-  const ranking = rankBySupport(support);
-  return { support, ranking, actorWeights };
+  return { support, ranking: rankBySupport(support), actorWeights };
 }
 
 function actorDistanceMatrix(actors = state.actors) {
@@ -909,11 +1563,11 @@ function buildCriterionSensitivity() {
       dimension.criteria = dimension.criteria.filter((item) => item.id !== criterion.id);
     });
     const filtered = dimensions.filter((dimension) => dimension.criteria.length);
-    const ranking = computeTechnicalRanking(filtered).ranking.order[0];
+    const topAlternative = computeTechnicalRanking(filtered).ranking.order[0];
     return {
       criterion: criterion.label,
-      topAlternative: ranking,
-      changed: ranking !== base.ranking.order[0]
+      topAlternative,
+      changed: topAlternative !== base.ranking.order[0]
     };
   });
 }
@@ -987,8 +1641,8 @@ function altName(id) {
 }
 
 function colorForValue(value) {
-  const alpha = 0.15 + (1 - value) * 0.45;
-  return `rgba(40, 75, 99, ${alpha.toFixed(3)})`;
+  const alpha = 0.14 + (1 - value) * 0.48;
+  return `rgba(38, 79, 105, ${alpha.toFixed(3)})`;
 }
 
 function matrixCell(value) {
@@ -996,278 +1650,34 @@ function matrixCell(value) {
   return `<div class="matrix-cell" style="background:${colorForValue(safe)};">${safe.toFixed(2)}</div>`;
 }
 
-function renderSummary(results) {
-  const technicalTop = altName(results.technical.ranking.order[0]);
-  const socialTop = altName(results.social.ranking.order[0]);
-  const criterionCount = flatCriteria().length;
-  const actorCount = state.actors.length;
-  const grid = document.getElementById("summaryGrid");
-  grid.innerHTML = `
-    <div class="summary-card">
-      <div class="summary-label">Current technical leader</div>
-      <div class="summary-value">${esc(technicalTop)}</div>
-      <p class="summary-copy">Best compromise on the weighted impact matrix under the current technical assumptions.</p>
-    </div>
-    <div class="summary-card">
-      <div class="summary-label">Current social leader</div>
-      <div class="summary-value">${esc(socialTop)}</div>
-      <p class="summary-copy">Best compromise once stakeholder preferences and representation weights are aggregated.</p>
-    </div>
-    <div class="summary-card">
-      <div class="summary-label">Model size</div>
-      <div class="summary-value">${criterionCount} criteria / ${actorCount} actors</div>
-      <p class="summary-copy">Enough structure to support negotiation while still staying readable in workshops.</p>
-    </div>
-    <div class="summary-card">
-      <div class="summary-label">Negotiation use</div>
-      <div class="summary-value">Collective erfpacht drafting</div>
-      <p class="summary-copy">Use the ranking as a discussion scaffold, then iterate weights and scores live with stakeholders.</p>
-    </div>
-  `;
+function getStateSignature() {
+  return JSON.stringify({
+    state,
+    simCount: uiState.simCount,
+    seed: uiState.seed
+  });
 }
 
-function renderAlternatives() {
-  const container = document.getElementById("alternativesTable");
-  container.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th style="width:26%;">Alternative</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${state.alternatives.map((alternative, index) => `
-          <tr>
-            <td>
-              <input type="text" data-role="alt-name" data-index="${index}" value="${esc(alternative.name)}">
-            </td>
-            <td>
-              <textarea data-role="alt-desc" data-index="${index}">${esc(alternative.description)}</textarea>
-            </td>
-          </tr>
-        `).join("")}
-      </tbody>
-    </table>
-  `;
+function getLightAnalysis() {
+  const signature = JSON.stringify({ state });
+  if (lightCache.signature === signature && lightCache.payload) {
+    return lightCache.payload;
+  }
+  const payload = {
+    technical: computeTechnicalRanking(),
+    social: computeSocialRanking()
+  };
+  lightCache = { signature, payload };
+  return payload;
 }
 
-function renderDimensions() {
-  const container = document.getElementById("dimensionsPanel");
-  container.innerHTML = state.dimensions.map((dimension, dimensionIndex) => `
-    <div class="dimension-card">
-      <div class="dimension-header">
-        <div class="dimension-top">
-          <strong>${esc(dimension.label)}</strong>
-          <div class="dimension-weight">
-            <label class="subtle">Dimension weight</label>
-            <input type="number" min="0" max="100" step="1" data-role="dimension-weight" data-dimension-index="${dimensionIndex}" value="${dimension.weight}">
-          </div>
-        </div>
-        <p class="dimension-copy">${esc(dimension.description)}</p>
-      </div>
-      <div style="padding: 0 16px 10px;">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:27%;">Criterion</th>
-              <th style="width:12%;">Weight</th>
-              <th style="width:11%;">Goal</th>
-              ${state.alternatives.map((alternative) => `<th>${esc(alternative.name)}</th>`).join("")}
-            </tr>
-          </thead>
-          <tbody>
-            ${dimension.criteria.map((criterion, criterionIndex) => `
-              <tr>
-                <td>
-                  <strong>${esc(criterion.label)}</strong>
-                  <div class="criterion-meta">
-                    <span class="tag">${esc(dimension.label)}</span>
-                    <span>${esc(criterion.note)}</span>
-                  </div>
-                </td>
-                <td><input type="number" min="0" max="100" step="1" data-role="criterion-weight" data-dimension-index="${dimensionIndex}" data-criterion-index="${criterionIndex}" value="${criterion.weight}"></td>
-                <td>
-                  <select data-role="criterion-goal" data-dimension-index="${dimensionIndex}" data-criterion-index="${criterionIndex}">
-                    <option value="max" ${criterion.goal === "max" ? "selected" : ""}>max</option>
-                    <option value="min" ${criterion.goal === "min" ? "selected" : ""}>min</option>
-                  </select>
-                </td>
-                ${state.alternatives.map((alternative) => `
-                  <td><input type="number" min="1" max="5" step="0.1" data-role="score" data-criterion-id="${criterion.id}" data-alt-id="${alternative.id}" value="${state.scores[criterion.id][alternative.id]}"></td>
-                `).join("")}
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `).join("");
-}
-
-function renderActors() {
-  const container = document.getElementById("actorsTable");
-  container.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th style="width:25%;">Actor</th>
-          <th style="width:12%;">Weight</th>
-          ${state.alternatives.map((alternative) => `<th>${esc(alternative.name)}</th>`).join("")}
-        </tr>
-      </thead>
-      <tbody>
-        ${state.actors.map((actor, actorIndex) => `
-          <tr>
-            <td><strong>${esc(actor.label)}</strong></td>
-            <td><input type="number" min="0" max="100" step="1" data-role="actor-weight" data-actor-index="${actorIndex}" value="${actor.weight}"></td>
-            ${state.alternatives.map((alternative) => `
-              <td><input type="number" min="1" max="5" step="0.1" data-role="actor-rating" data-actor-index="${actorIndex}" data-alt-id="${alternative.id}" value="${actor.ratings[alternative.id]}"></td>
-            `).join("")}
-          </tr>
-        `).join("")}
-      </tbody>
-    </table>
-  `;
-}
-
-function rankingMarkup(order, support, label) {
-  return order.map((alternativeId, rankIndex) => {
-    const beats = state.alternatives
-      .filter((alternative) => alternative.id !== alternativeId)
-      .map((alternative) => support[alternativeId][alternative.id])
-      .reduce((total, value) => total + value, 0);
-    return `
-      <div class="rank-item">
-        <div class="rank-badge">${rankIndex + 1}</div>
-        <div>
-          <strong>${esc(altName(alternativeId))}</strong>
-          <div class="rank-note">${esc(state.alternatives.find((alternative) => alternative.id === alternativeId)?.description || "")}</div>
-        </div>
-        <div class="score-pill">${label}: ${beats.toFixed(2)}</div>
-      </div>
-    `;
-  }).join("");
-}
-
-function buildRecommendation(results, robustness) {
-  const technicalTop = results.technical.ranking.order[0];
-  const socialTop = results.social.ranking.order[0];
-  const overlap = results.technical.ranking.order.slice(0, 2).includes(socialTop);
-  const robustnessTop = Object.entries(robustness)
-    .map(([alternativeId, ranks]) => ({ alternativeId, firstPlace: ranks[0] }))
-    .sort((a, b) => b.firstPlace - a.firstPlace)[0];
-
-  let headline;
-  let body;
-  if (technicalTop === socialTop) {
-    headline = `${altName(technicalTop)} is the current convergence candidate`;
-    body = `It leads both the technical and the equity rankings, which means it is currently the strongest base for a collective erfpacht agreement.`;
-  } else if (overlap) {
-    headline = `${altName(socialTop)} is the best negotiation bridge`;
-    body = `It wins the social compromise ranking and stays inside the top technical tier, so it is the strongest bargaining platform if legitimacy matters as much as delivery.`;
-  } else {
-    headline = `There is a technical-social split that needs explicit negotiation`;
-    body = `${altName(technicalTop)} leads technically while ${altName(socialTop)} leads socially. The agreement should reconcile feasibility and legitimacy before locking the lease structure.`;
+function getFullAnalysis() {
+  const signature = getStateSignature();
+  if (fullCache.signature === signature && fullCache.payload) {
+    return fullCache.payload;
   }
 
-  return `
-    <div class="summary-card" style="margin-bottom:12px;">
-      <div class="summary-label">Current recommendation</div>
-      <div class="summary-value" style="font-size:20px;">${esc(headline)}</div>
-      <p class="summary-copy">${esc(body)}</p>
-    </div>
-    <ul class="insight-list">
-      <li>The most robust technical alternative in random weight simulations is <strong>${esc(altName(robustnessTop.alternativeId))}</strong> with a first-place frequency of <strong>${(robustnessTop.firstPlace * 100).toFixed(0)}%</strong>.</li>
-      <li>If the top technical and social alternatives diverge, use the pair as the core negotiation set rather than forcing immediate closure on one option.</li>
-      <li>The collective erfpacht draft should carry the mission-lock and representation clauses from the socially stronger options even if the final delivery model is administratively more conservative.</li>
-    </ul>
-  `;
-}
-
-function renderSensitivityList(items, mapper) {
-  return `
-    <div class="robustness-list">
-      ${items.map(mapper).join("")}
-    </div>
-  `;
-}
-
-function renderRobustness(robustness, simCount) {
-  const container = document.getElementById("robustnessPanel");
-  const rows = state.alternatives.map((alternative) => ({
-    id: alternative.id,
-    name: alternative.name,
-    firstPlace: robustness[alternative.id][0] / simCount
-  })).sort((left, right) => right.firstPlace - left.firstPlace);
-
-  container.innerHTML = `
-    <div class="subtle" style="margin-bottom:10px;">Monte Carlo test over ${simCount} random criterion-weight configurations.</div>
-    <div class="robustness-list">
-      ${rows.map((row) => `
-        <div class="robustness-row">
-          <div>${esc(row.name)}</div>
-          <div class="bar-track"><div class="bar-fill" style="width:${(row.firstPlace * 100).toFixed(1)}%;"></div></div>
-          <div>${(row.firstPlace * 100).toFixed(1)}%</div>
-        </div>
-      `).join("")}
-    </div>
-  `;
-}
-
-function renderDistanceMatrix(matrix) {
-  const container = document.getElementById("distanceMatrix");
-  container.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th class="matrix-label">Actor</th>
-          ${state.actors.map((actor) => `<th>${esc(actor.label)}</th>`).join("")}
-        </tr>
-      </thead>
-      <tbody>
-        ${state.actors.map((left) => `
-          <tr>
-            <td class="matrix-label"><strong>${esc(left.label)}</strong></td>
-            ${state.actors.map((right) => `<td>${matrixCell(matrix[left.id][right.id])}</td>`).join("")}
-          </tr>
-        `).join("")}
-      </tbody>
-    </table>
-  `;
-}
-
-function renderInsights(matrix, technical, social, robustness) {
-  const pairs = [];
-  state.actors.forEach((left, leftIndex) => {
-    state.actors.slice(leftIndex + 1).forEach((right) => {
-      pairs.push({
-        left: left.label,
-        right: right.label,
-        distance: matrix[left.id][right.id]
-      });
-    });
-  });
-  pairs.sort((a, b) => a.distance - b.distance);
-  const closest = pairs[0];
-  const furthest = pairs[pairs.length - 1];
-  const robustTop = Object.entries(robustness)
-    .map(([alternativeId, ranks]) => ({ alternativeId, first: ranks[0] }))
-    .sort((a, b) => b.first - a.first)[0];
-
-  document.getElementById("negotiationInsights").innerHTML = `
-    <li>The closest coalition in current preference space is <strong>${esc(closest.left)}</strong> + <strong>${esc(closest.right)}</strong> (distance ${closest.distance.toFixed(2)}).</li>
-    <li>The hardest alignment gap is between <strong>${esc(furthest.left)}</strong> and <strong>${esc(furthest.right)}</strong> (distance ${furthest.distance.toFixed(2)}).</li>
-    <li><strong>${esc(altName(robustTop.alternativeId))}</strong> is the most stable technical leader under random weighting.</li>
-    <li>The negotiation should start from the intersection between technical rank #1 <strong>${esc(altName(technical.ranking.order[0]))}</strong> and social rank #1 <strong>${esc(altName(social.ranking.order[0]))}</strong>.</li>
-  `;
-}
-
-function recompute() {
-  const simCount = Math.max(100, Number(document.getElementById("simCount").value) || 1200);
-  const seed = Math.max(1, Number(document.getElementById("seedInput").value) || 1018);
-  const technical = computeTechnicalRanking();
-  const social = computeSocialRanking();
+  const light = getLightAnalysis();
   const criterionSensitivity = buildCriterionSensitivity();
   const dimensionSensitivity = state.dimensions.map((dimension) => ({
     dimension: dimension.label,
@@ -1277,127 +1687,1222 @@ function recompute() {
     actor: actor.label,
     topAlternative: boostActorRanking(actor.id)
   }));
-  const robustness = runRobustness(simCount, seed);
+  const robustness = runRobustness(uiState.simCount, uiState.seed);
   const distances = actorDistanceMatrix();
 
-  renderSummary({ technical, social });
-  document.getElementById("technicalRanking").innerHTML = rankingMarkup(technical.ranking.order, technical.support, "support");
-  document.getElementById("socialRanking").innerHTML = rankingMarkup(social.ranking.order, social.support, "support");
-  document.getElementById("recommendationPanel").innerHTML = buildRecommendation({ technical, social }, robustness);
-  document.getElementById("criterionSensitivity").innerHTML = renderSensitivityList(
+  const payload = {
+    ...light,
     criterionSensitivity,
-    (item) => `
-      <div class="robustness-row">
-        <div>${esc(item.criterion)}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${item.changed ? "100" : "56"}%; background:${item.changed ? "linear-gradient(90deg, #9b5d67 0%, #be7683 100%)" : "linear-gradient(90deg, #5f7a61 0%, #7f9d82 100%)"};"></div></div>
-        <div>${esc(altName(item.topAlternative))}</div>
-      </div>
-    `
-  );
-  document.getElementById("dimensionSensitivity").innerHTML = renderSensitivityList(
     dimensionSensitivity,
-    (item) => `
-      <div class="robustness-row">
-        <div>${esc(item.dimension)}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:100%;"></div></div>
-        <div>${esc(altName(item.topAlternative))}</div>
-      </div>
-    `
-  );
-  document.getElementById("actorSensitivity").innerHTML = renderSensitivityList(
     actorSensitivity,
-    (item) => `
-      <div class="robustness-row">
-        <div>${esc(item.actor)}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:100%; background:linear-gradient(90deg, #c49a6c 0%, #d6ae82 100%);"></div></div>
-        <div>${esc(altName(item.topAlternative))}</div>
-      </div>
-    `
-  );
-  renderRobustness(robustness, simCount);
-  renderDistanceMatrix(distances);
-  renderInsights(distances, technical, social, robustness);
+    robustness,
+    distances
+  };
+  fullCache = { signature, payload };
+  return payload;
 }
 
-function syncStateFromInputs() {
-  document.querySelectorAll("[data-role='alt-name']").forEach((input) => {
-    const index = Number(input.dataset.index);
-    state.alternatives[index].name = input.value.trim() || defaultState.alternatives[index].name;
-  });
-  document.querySelectorAll("[data-role='alt-desc']").forEach((input) => {
-    const index = Number(input.dataset.index);
-    state.alternatives[index].description = input.value.trim() || defaultState.alternatives[index].description;
-  });
-  document.querySelectorAll("[data-role='dimension-weight']").forEach((input) => {
-    const dimensionIndex = Number(input.dataset.dimensionIndex);
-    state.dimensions[dimensionIndex].weight = Number(input.value) || 0;
-  });
-  document.querySelectorAll("[data-role='criterion-weight']").forEach((input) => {
-    const dimensionIndex = Number(input.dataset.dimensionIndex);
-    const criterionIndex = Number(input.dataset.criterionIndex);
-    state.dimensions[dimensionIndex].criteria[criterionIndex].weight = Number(input.value) || 0;
-  });
-  document.querySelectorAll("[data-role='criterion-goal']").forEach((select) => {
-    const dimensionIndex = Number(select.dataset.dimensionIndex);
-    const criterionIndex = Number(select.dataset.criterionIndex);
-    state.dimensions[dimensionIndex].criteria[criterionIndex].goal = select.value;
-  });
-  document.querySelectorAll("[data-role='score']").forEach((input) => {
-    const criterionId = input.dataset.criterionId;
-    const altId = input.dataset.altId;
-    state.scores[criterionId][altId] = Number(input.value) || 0;
-  });
-  document.querySelectorAll("[data-role='actor-weight']").forEach((input) => {
-    const actorIndex = Number(input.dataset.actorIndex);
-    state.actors[actorIndex].weight = Number(input.value) || 0;
-  });
-  document.querySelectorAll("[data-role='actor-rating']").forEach((input) => {
-    const actorIndex = Number(input.dataset.actorIndex);
-    const altId = input.dataset.altId;
-    state.actors[actorIndex].ratings[altId] = Number(input.value) || 0;
-  });
+function clearAnalysisCache() {
+  lightCache = { signature: "", payload: null };
+  fullCache = { signature: "", payload: null };
 }
 
-function renderAll() {
-  renderAlternatives();
-  renderDimensions();
-  renderActors();
-  recompute();
+function timeStamp() {
+  return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-document.addEventListener("change", (event) => {
-  if (event.target.matches("input, textarea, select")) {
-    syncStateFromInputs();
-    if (event.target.dataset.role === "alt-name" || event.target.dataset.role === "alt-desc") {
-      renderAll();
-    } else {
-      recompute();
+function saveSession() {
+  try {
+    uiState.lastSavedAt = timeStamp();
+    sessionStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(state));
+    sessionStorage.setItem(STORAGE_KEY_UI, JSON.stringify({
+      currentStep: uiState.currentStep,
+      maxUnlockedStep: uiState.maxUnlockedStep,
+      activeActorIndex: uiState.activeActorIndex,
+      simCount: uiState.simCount,
+      seed: uiState.seed,
+      lastSavedAt: uiState.lastSavedAt
+    }));
+  } catch (error) {
+    // ignore storage errors in browser environments with blocked session storage
+  }
+}
+
+function loadSession() {
+  try {
+    const storedState = sessionStorage.getItem(STORAGE_KEY_STATE);
+    const storedUi = sessionStorage.getItem(STORAGE_KEY_UI);
+    if (storedState) {
+      state = normalizeState(JSON.parse(storedState));
+    }
+    if (storedUi) {
+      const parsedUi = JSON.parse(storedUi);
+      uiState.currentStep = clampNumber(parsedUi.currentStep, 0, STEP_META.length - 1, 0);
+      uiState.maxUnlockedStep = clampNumber(parsedUi.maxUnlockedStep, 0, STEP_META.length - 1, uiState.currentStep);
+      uiState.activeActorIndex = clampNumber(parsedUi.activeActorIndex, 0, state.actors.length - 1, 0);
+      uiState.simCount = clampNumber(parsedUi.simCount, 100, 5000, 1200);
+      uiState.seed = clampNumber(parsedUi.seed, 1, 999999, 1018);
+      uiState.lastSavedAt = parsedUi.lastSavedAt || "";
+    }
+  } catch (error) {
+    state = normalizeState(defaultState);
+  }
+}
+
+function resetAll() {
+  state = normalizeState(defaultState);
+  uiState = {
+    currentStep: 0,
+    maxUnlockedStep: 0,
+    activeActorIndex: 0,
+    simCount: 1200,
+    seed: 1018,
+    lastSavedAt: timeStamp(),
+    validationMessage: ""
+  };
+  clearAnalysisCache();
+  saveSession();
+  render();
+}
+
+function isValueBetween(value, min, max) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) && numeric >= min && numeric <= max;
+}
+
+function validateStep(index) {
+  if (index === 0) {
+    const empty = state.alternatives.find((alternative) => !alternative.name.trim());
+    if (empty) {
+      return { ok: false, message: "Every agreement alternative needs a clear name before the workshop moves on." };
     }
   }
-});
 
-document.getElementById("recomputeBtn").addEventListener("click", () => {
-  syncStateFromInputs();
-  recompute();
-});
+  if (index === 1) {
+    const dimensionTotal = sum(state.dimensions.map((dimension) => Number(dimension.weight) || 0));
+    if (dimensionTotal <= 0) {
+      return { ok: false, message: "The dimension weights need a positive total so the model knows what the group prioritises." };
+    }
+    const zeroCriterion = state.dimensions.find((dimension) => sum(dimension.criteria.map((criterion) => Number(criterion.weight) || 0)) <= 0);
+    if (zeroCriterion) {
+      return { ok: false, message: `The criteria inside "${zeroCriterion.label}" need some weight so that dimension can actually influence the result.` };
+    }
+  }
 
-document.getElementById("resetBtn").addEventListener("click", () => {
-  state = deepClone(defaultState);
-  renderAll();
-});
+  if (index === 2) {
+    const invalidScore = flatCriteria().find((criterion) =>
+      state.alternatives.some((alternative) => !isValueBetween(state.scores[criterion.id]?.[alternative.id], 1, 5))
+    );
+    if (invalidScore) {
+      return { ok: false, message: "All impact scores need to stay on the 1-5 scale before the technical ranking can be trusted." };
+    }
+  }
 
-document.getElementById("exportBtn").addEventListener("click", () => {
-  syncStateFromInputs();
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+  if (index === 3) {
+    const actorTotal = sum(state.actors.map((actor) => Number(actor.weight) || 0));
+    if (actorTotal <= 0) {
+      return { ok: false, message: "Stakeholder weights need a positive total so the social ranking can be computed." };
+    }
+  }
+
+  if (index === 4) {
+    const invalidRating = state.actors.find((actor) =>
+      state.alternatives.some((alternative) => !isValueBetween(actor.ratings[alternative.id], 1, 5))
+    );
+    if (invalidRating) {
+      return { ok: false, message: "Every stakeholder acceptability score needs to stay on the 1-5 scale." };
+    }
+  }
+
+  return { ok: true, message: "" };
+}
+
+function goToStep(targetStep) {
+  if (targetStep < 0 || targetStep >= STEP_META.length) {
+    return;
+  }
+  if (targetStep > uiState.maxUnlockedStep) {
+    return;
+  }
+  uiState.currentStep = targetStep;
+  uiState.validationMessage = "";
+  saveSession();
+  render();
+}
+
+function nextStep() {
+  const validation = validateStep(uiState.currentStep);
+  if (!validation.ok) {
+    uiState.validationMessage = validation.message;
+    render();
+    return;
+  }
+  uiState.validationMessage = "";
+  uiState.maxUnlockedStep = Math.max(uiState.maxUnlockedStep, Math.min(STEP_META.length - 1, uiState.currentStep + 1));
+  uiState.currentStep = Math.min(STEP_META.length - 1, uiState.currentStep + 1);
+  saveSession();
+  render();
+}
+
+function previousStep() {
+  if (uiState.currentStep === 0) {
+    return;
+  }
+  uiState.currentStep -= 1;
+  uiState.validationMessage = "";
+  saveSession();
+  render();
+}
+
+function renderHeroSummary(light) {
+  const technicalTop = altName(light.technical.ranking.order[0]);
+  const socialTop = altName(light.social.ranking.order[0]);
+  const criterionCount = flatCriteria().length;
+  const actorCount = state.actors.length;
+
+  document.getElementById("heroSummary").innerHTML = `
+    <div class="summary-card">
+      <span class="summary-label">Current technical leader</span>
+      <div class="summary-value">${esc(technicalTop)}</div>
+      <p class="summary-copy">Best compromise on the impact matrix under the current technical assumptions.</p>
+    </div>
+    <div class="summary-card">
+      <span class="summary-label">Current social leader</span>
+      <div class="summary-value">${esc(socialTop)}</div>
+      <p class="summary-copy">Best compromise once stakeholder preferences and representation weights are aggregated.</p>
+    </div>
+    <div class="summary-card">
+      <span class="summary-label">Model size</span>
+      <div class="summary-value">${criterionCount} criteria / ${actorCount} actors</div>
+      <p class="summary-copy">Enough structure to support negotiation while still staying readable in a live workshop.</p>
+    </div>
+    <div class="summary-card">
+      <span class="summary-label">Use case</span>
+      <div class="summary-value">Collective erfpacht drafting</div>
+      <p class="summary-copy">Use the rankings as a structured conversation scaffold, then iterate live with the group.</p>
+    </div>
+  `;
+}
+
+function renderStepBar() {
+  const html = STEP_META.map((step, index) => {
+    const isActive = index === uiState.currentStep;
+    const isComplete = index < uiState.currentStep || index <= uiState.maxUnlockedStep && index < STEP_META.length && uiState.maxUnlockedStep > index;
+    const isLocked = index > uiState.maxUnlockedStep;
+    return `
+      <button
+        type="button"
+        class="step-segment ${isActive ? "active" : ""} ${isComplete ? "complete" : ""} ${isLocked ? "locked" : ""}"
+        data-action="jump-step"
+        data-step-index="${index}"
+        aria-current="${isActive ? "step" : "false"}"
+        aria-disabled="${isLocked ? "true" : "false"}"
+      >
+        <span class="step-circle">${index + 1}</span>
+        <span class="step-copy">
+          <span class="step-title">${esc(step.title)}</span>
+          <span class="step-mini">${esc(step.short)}</span>
+        </span>
+      </button>
+    `;
+  }).join("");
+  document.getElementById("stepBar").innerHTML = html;
+}
+
+function renderStepHelper() {
+  const step = STEP_META[uiState.currentStep];
+  document.getElementById("stepHelper").innerHTML = `
+    <div class="step-kicker">Workshop guidance</div>
+    <h3 style="margin:0 0 10px 0; font-size:22px;">Step ${uiState.currentStep + 1}: ${esc(step.title)}</h3>
+    <div class="card-grid">
+      <div class="summary-card">
+        <span class="summary-label">What you do here</span>
+        <p class="summary-copy">${esc(step.what)}</p>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Why it matters</span>
+        <p class="summary-copy">${esc(step.why)}</p>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">What happens next</span>
+        <p class="summary-copy">${esc(step.next)}</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderSnapshot(light) {
+  const technicalTop = altName(light.technical.ranking.order[0]);
+  const socialTop = altName(light.social.ranking.order[0]);
+  const validation = validateStep(uiState.currentStep);
+  const actorWeights = normalizeActorWeights();
+  const maxActor = state.actors
+    .map((actor) => ({ label: actor.label, weight: actorWeights[actor.id] }))
+    .sort((left, right) => right.weight - left.weight)[0];
+  const progressText = `${uiState.currentStep + 1} / ${STEP_META.length}`;
+  document.getElementById("liveSnapshot").innerHTML = `
+    <div class="step-kicker">Live snapshot</div>
+    <div class="card-grid">
+      <div class="summary-card">
+        <span class="summary-label">Progress</span>
+        <div class="summary-value">${progressText}</div>
+        <p class="summary-copy">Completed steps can be reopened from the bar at the top.</p>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Technical lead</span>
+        <div class="summary-value">${esc(technicalTop)}</div>
+        <p class="summary-copy">Current technical front-runner from the impact matrix.</p>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Social lead</span>
+        <div class="summary-value">${esc(socialTop)}</div>
+        <p class="summary-copy">Current social compromise leader from stakeholder weights and acceptability.</p>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Largest voice right now</span>
+        <div class="summary-value">${esc(maxActor.label)}</div>
+        <p class="summary-copy">${(maxActor.weight * 100).toFixed(0)}% of the current stakeholder influence total.</p>
+      </div>
+      <div class="status-row">
+        <span class="status-pill ${validation.ok ? "success" : "warning"}">${validation.ok ? "Step is ready to continue" : "Step still needs attention"}</span>
+        <span class="status-pill">${uiState.lastSavedAt ? `Autosaved ${esc(uiState.lastSavedAt)}` : "Session autosave on"}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderNavigation() {
+  const isLast = uiState.currentStep === STEP_META.length - 1;
+  return `
+    <div class="step-nav">
+      <div class="subtle">Move in order, then revisit completed steps from the top bar whenever the group wants to adjust something.</div>
+      <div class="nav-actions">
+        <button type="button" class="button" data-action="prev-step" ${uiState.currentStep === 0 ? "disabled" : ""}>Back</button>
+        <button type="button" class="button primary" data-action="next-step" ${isLast ? "disabled" : ""}>${isLast ? "Final step reached" : "Next"}</button>
+      </div>
+    </div>
+    ${uiState.validationMessage ? `<div class="message">${esc(uiState.validationMessage)}</div>` : ""}
+  `;
+}
+
+function renderScaleButtons(context, currentValue, dataAttrs, scaleLabels) {
+  return `
+    <div class="scale-buttons">
+      ${[1, 2, 3, 4, 5].map((value) => `
+        <button
+          type="button"
+          class="scale-button ${Number(currentValue) === value ? "active" : ""}"
+          data-action="${context}"
+          ${dataAttrs.map(([key, itemValue]) => `${key}="${esc(itemValue)}"`).join(" ")}
+          data-value="${value}"
+        >
+          ${value}
+          <span>${esc(scaleLabels[value])}</span>
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderAlternativesStep() {
+  return `
+    <div class="step-kicker">Step 1</div>
+    <div class="step-header">
+      <div>
+        <h2>Agreement alternatives</h2>
+        <p>Create clear, realistic governance packages that people can compare without needing to interpret what each option means.</p>
+      </div>
+      <div class="step-progress">
+        <span class="summary-label">Current task</span>
+        <div class="summary-value">Name the options</div>
+        <p class="summary-copy">Each card should describe who holds power, how value is protected, and how change happens over time.</p>
+      </div>
+    </div>
+    <div class="card-grid">
+      ${state.alternatives.map((alternative, index) => `
+        <section class="alt-card" data-alt-index="${index}">
+          <div class="card-head">
+            <div>
+              <span class="tag alt">Alternative ${index + 1}</span>
+              <h3 class="card-title" style="margin-top:8px;">${esc(alternative.name)}</h3>
+            </div>
+          </div>
+          <div class="field">
+            <label for="alt-name-${index}">Alternative name</label>
+            <input id="alt-name-${index}" type="text" data-role="alt-name" data-index="${index}" value="${esc(alternative.name)}">
+          </div>
+          <div class="field">
+            <label for="alt-desc-${index}">What changes in this agreement?</label>
+            <textarea id="alt-desc-${index}" data-role="alt-desc" data-index="${index}">${esc(alternative.description)}</textarea>
+          </div>
+          <div>
+            <span class="micro-label">Helpful prompts</span>
+            <div class="prompt-chips">
+              <span class="chip">Who holds the lease rights?</span>
+              <span class="chip">How is the mission locked?</span>
+              <span class="chip">How do users gain representation?</span>
+              <span class="chip">How does phasing avoid displacement?</span>
+            </div>
+          </div>
+        </section>
+      `).join("")}
+    </div>
+    ${renderNavigation()}
+  `;
+}
+
+function renderGoalsStep() {
+  const totalWeight = sum(state.dimensions.map((dimension) => Number(dimension.weight) || 0)) || 1;
+  return `
+    <div class="step-kicker">Step 2</div>
+    <div class="step-header">
+      <div>
+        <h2>Shared goals and criteria</h2>
+        <p>Make the group's value system explicit. The bigger sliders shape the overall political priorities; the smaller ones show how each priority is interpreted in practice.</p>
+      </div>
+      <div class="step-progress">
+        <span class="summary-label">Current task</span>
+        <div class="summary-value">Weight what matters</div>
+        <p class="summary-copy">Dimension weights add up across the whole model. Criterion weights matter inside each dimension.</p>
+      </div>
+    </div>
+    <div class="card-grid">
+      ${state.dimensions.map((dimension, dimensionIndex) => {
+        const criterionTotal = sum(dimension.criteria.map((criterion) => Number(criterion.weight) || 0)) || 1;
+        const dimensionShare = ((Number(dimension.weight) || 0) / totalWeight) * 100;
+        return `
+          <section class="dimension-card">
+            <div class="card-head">
+              <div>
+                <span class="tag">${esc(dimension.label)}</span>
+                <h3 class="card-title" style="margin-top:8px;">${esc(dimension.label)}</h3>
+                <p class="summary-copy" style="margin-top:6px;">${esc(dimension.description)}</p>
+              </div>
+              <div class="status-pill">${dimensionShare.toFixed(0)}% of total emphasis</div>
+            </div>
+            <div style="margin-top:14px;">
+              <div class="weight-meta">
+                <span class="micro-label">Dimension weight</span>
+                <span class="weight-value">${Number(dimension.weight).toFixed(0)}</span>
+              </div>
+              <div class="weight-shell">
+                <input type="range" min="0" max="100" step="1" data-role="dimension-weight-range" data-dimension-index="${dimensionIndex}" value="${dimension.weight}">
+                <input type="number" min="0" max="100" step="1" data-role="dimension-weight-number" data-dimension-index="${dimensionIndex}" value="${dimension.weight}">
+              </div>
+            </div>
+            <div class="criterion-grid" style="margin-top:16px;">
+              ${dimension.criteria.map((criterion, criterionIndex) => `
+                <article class="criterion-card">
+                  <div class="card-head">
+                    <div>
+                      <h4 class="card-title" style="font-size:16px;">${esc(criterion.label)}</h4>
+                      <p class="summary-copy" style="margin-top:6px;">${esc(criterion.note)}</p>
+                    </div>
+                    <span class="status-pill">${(((Number(criterion.weight) || 0) / criterionTotal) * 100).toFixed(0)}%</span>
+                  </div>
+                  <div>
+                    <div class="weight-meta">
+                      <span class="micro-label">Criterion weight</span>
+                      <span class="weight-value">${Number(criterion.weight).toFixed(0)}</span>
+                    </div>
+                    <div class="weight-shell">
+                      <input type="range" min="0" max="100" step="1" data-role="criterion-weight-range" data-dimension-index="${dimensionIndex}" data-criterion-index="${criterionIndex}" value="${criterion.weight}">
+                      <input type="number" min="0" max="100" step="1" data-role="criterion-weight-number" data-dimension-index="${dimensionIndex}" data-criterion-index="${criterionIndex}" value="${criterion.weight}">
+                    </div>
+                  </div>
+                  <div>
+                    <span class="micro-label">Desired direction</span>
+                    <div class="goal-toggle">
+                      <button type="button" class="goal-pill ${criterion.goal === "max" ? "active" : ""}" data-action="set-goal" data-dimension-index="${dimensionIndex}" data-criterion-index="${criterionIndex}" data-goal="max">Maximise</button>
+                      <button type="button" class="goal-pill min ${criterion.goal === "min" ? "active min" : ""}" data-action="set-goal" data-dimension-index="${dimensionIndex}" data-criterion-index="${criterionIndex}" data-goal="min">Minimise</button>
+                    </div>
+                  </div>
+                </article>
+              `).join("")}
+            </div>
+          </section>
+        `;
+      }).join("")}
+    </div>
+    ${renderNavigation()}
+  `;
+}
+
+function renderImpactStep() {
+  return `
+    <div class="step-kicker">Step 3</div>
+    <div class="step-header">
+      <div>
+        <h2>Impact scoring</h2>
+        <p>Score how each agreement alternative performs on each criterion. Use the full 1-5 scale and talk through the reasons together.</p>
+      </div>
+      <div class="step-progress">
+        <span class="summary-label">Current task</span>
+        <div class="summary-value">Fill the technical matrix</div>
+        <p class="summary-copy">1 means weak performance; 5 means the alternative strongly delivers on that criterion.</p>
+      </div>
+    </div>
+    <div class="card-grid">
+      ${state.dimensions.map((dimension) => `
+        <section class="score-card">
+          <div class="card-head">
+            <div>
+              <span class="tag">${esc(dimension.label)}</span>
+              <h3 class="card-title" style="margin-top:8px;">${esc(dimension.label)}</h3>
+              <p class="summary-copy" style="margin-top:6px;">${esc(dimension.description)}</p>
+            </div>
+          </div>
+          ${dimension.criteria.map((criterion) => `
+            <article class="criterion-card">
+              <div class="card-head">
+                <div>
+                  <h4 class="card-title" style="font-size:16px;">${esc(criterion.label)}</h4>
+                  <p class="summary-copy" style="margin-top:6px;">${esc(criterion.note)}</p>
+                </div>
+                <span class="status-pill">${criterion.goal === "min" ? "Minimise harm" : "Maximise benefit"}</span>
+              </div>
+              ${state.alternatives.map((alternative, altIndex) => `
+                <div class="score-row">
+                  <div>
+                    <strong style="display:block;">${esc(alternative.name)}</strong>
+                    <span class="summary-copy">${esc(alternative.description)}</span>
+                  </div>
+                  ${renderScaleButtons(
+                    "set-score",
+                    state.scores[criterion.id][alternative.id],
+                    [
+                      ["data-criterion-id", criterion.id],
+                      ["data-alt-id", alternative.id],
+                      ["data-alt-index", String(altIndex)]
+                    ],
+                    IMPACT_SCALE
+                  )}
+                  <div class="score-summary">${esc(IMPACT_SCALE[state.scores[criterion.id][alternative.id]])}</div>
+                </div>
+              `).join("")}
+            </article>
+          `).join("")}
+        </section>
+      `).join("")}
+    </div>
+    ${renderNavigation()}
+  `;
+}
+
+function actorWeightGradient() {
+  const normalized = normalizeActorWeights();
+  let start = 0;
+  const stops = state.actors.map((actor, index) => {
+    const span = normalized[actor.id] * 100;
+    const end = start + span;
+    const color = ACTOR_COLORS[index];
+    const fragment = `${color} ${start.toFixed(2)}% ${end.toFixed(2)}%`;
+    start = end;
+    return fragment;
+  });
+  return `conic-gradient(${stops.join(", ")})`;
+}
+
+function renderStakeholderStep() {
+  const normalized = normalizeActorWeights();
+  return `
+    <div class="step-kicker">Step 4</div>
+    <div class="step-header">
+      <div>
+        <h2>Stakeholders and influence</h2>
+        <p>Decide how the negotiation table is weighted. This is about representation in the social ranking, not about who is morally right forever.</p>
+      </div>
+      <div class="step-progress">
+        <span class="summary-label">Current task</span>
+        <div class="summary-value">Weight the voices</div>
+        <p class="summary-copy">The chart updates to show how much influence each stakeholder currently carries in the social ranking.</p>
+      </div>
+    </div>
+    <div class="actor-layout">
+      <section class="summary-card">
+        <div class="donut-shell">
+          <div class="donut" style="background:${actorWeightGradient()};">
+            <div class="donut-center">
+              <div>
+                <strong>100%</strong>
+                <span class="subtle">Stakeholder influence total</span>
+              </div>
+            </div>
+          </div>
+          <div class="legend">
+            ${state.actors.map((actor, index) => `
+              <div class="legend-row">
+                <span class="legend-dot" style="background:${ACTOR_COLORS[index]};"></span>
+                <span>${esc(actor.label)}</span>
+                <strong>${(normalized[actor.id] * 100).toFixed(1)}%</strong>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </section>
+      <div class="card-grid">
+        ${state.actors.map((actor, actorIndex) => `
+          <section class="actor-card" data-actor-index="${actorIndex}">
+            <div class="card-head">
+              <div>
+                <span class="tag success">Stakeholder ${actorIndex + 1}</span>
+                <h3 class="card-title" style="margin-top:8px;">${esc(actor.label)}</h3>
+                <p class="summary-copy" style="margin-top:6px;">${esc(ACTOR_CONTEXT[actor.id] || "Important perspective in the collective agreement discussion.")}</p>
+              </div>
+              <span class="status-pill">${(normalized[actor.id] * 100).toFixed(0)}%</span>
+            </div>
+            <div>
+              <div class="weight-meta">
+                <span class="micro-label">Representation weight</span>
+                <span class="weight-value">${Number(actor.weight).toFixed(0)}</span>
+              </div>
+              <div class="weight-shell">
+                <input type="range" min="0" max="100" step="1" data-role="actor-weight-range" data-actor-index="${actorIndex}" value="${actor.weight}">
+                <input type="number" min="0" max="100" step="1" data-role="actor-weight-number" data-actor-index="${actorIndex}" value="${actor.weight}">
+              </div>
+            </div>
+          </section>
+        `).join("")}
+      </div>
+    </div>
+    ${renderNavigation()}
+  `;
+}
+
+function renderFairnessStep() {
+  const actor = state.actors[uiState.activeActorIndex];
+  const normalized = normalizeActorWeights();
+  return `
+    <div class="step-kicker">Step 5</div>
+    <div class="step-header">
+      <div>
+        <h2>Fairness and lived impact</h2>
+        <p>Rate each alternative from one stakeholder perspective at a time so the discussion stays human and specific rather than collapsing into averages too early.</p>
+      </div>
+      <div class="step-progress">
+        <span class="summary-label">Current task</span>
+        <div class="summary-value">Listen to one perspective</div>
+        <p class="summary-copy">The active stakeholder is highlighted below. Their weight in the social ranking is currently ${(normalized[actor.id] * 100).toFixed(1)}%.</p>
+      </div>
+    </div>
+    <div class="actor-tabs" style="margin-bottom:16px;">
+      ${state.actors.map((item, index) => `
+        <button type="button" class="actor-tab ${index === uiState.activeActorIndex ? "active" : ""}" data-action="select-actor-tab" data-actor-index="${index}">
+          ${esc(item.label)}
+        </button>
+      `).join("")}
+    </div>
+    <section class="summary-card" style="margin-bottom:16px;">
+      <span class="summary-label">Active perspective</span>
+      <div class="summary-value">${esc(actor.label)}</div>
+      <p class="summary-copy">${esc(ACTOR_CONTEXT[actor.id] || "Important perspective in the collective agreement discussion.")}</p>
+    </section>
+    <div class="card-grid">
+      ${state.alternatives.map((alternative, altIndex) => `
+        <section class="alt-card" data-alt-index="${altIndex}">
+          <div class="card-head">
+            <div>
+              <span class="tag alt">Alternative ${altIndex + 1}</span>
+              <h3 class="card-title" style="margin-top:8px;">${esc(alternative.name)}</h3>
+              <p class="summary-copy" style="margin-top:6px;">${esc(alternative.description)}</p>
+            </div>
+            <span class="status-pill">${esc(FAIRNESS_SCALE[actor.ratings[alternative.id]])}</span>
+          </div>
+          <div>
+            <span class="micro-label">How does this option feel for this stakeholder?</span>
+            ${renderScaleButtons(
+              "set-rating",
+              actor.ratings[alternative.id],
+              [
+                ["data-actor-index", String(uiState.activeActorIndex)],
+                ["data-alt-id", alternative.id]
+              ],
+              FAIRNESS_SCALE
+            )}
+          </div>
+        </section>
+      `).join("")}
+    </div>
+    ${renderNavigation()}
+  `;
+}
+
+function supportTotal(support, alternativeId) {
+  return state.alternatives
+    .filter((alternative) => alternative.id !== alternativeId)
+    .map((alternative) => support[alternativeId][alternative.id])
+    .reduce((total, value) => total + value, 0);
+}
+
+function rankingMarkup(order, support, label) {
+  return `
+    <div class="ranking-stack">
+      ${order.map((alternativeId, rankIndex) => `
+        <div class="rank-item">
+          <div class="rank-badge">${rankIndex + 1}</div>
+          <div>
+            <strong>${esc(altName(alternativeId))}</strong>
+            <div class="summary-copy">${esc(state.alternatives.find((alternative) => alternative.id === alternativeId)?.description || "")}</div>
+          </div>
+          <div class="score-pill">${esc(label)} ${supportTotal(support, alternativeId).toFixed(2)}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function compareNarrative(light) {
+  const technicalTop = light.technical.ranking.order[0];
+  const socialTop = light.social.ranking.order[0];
+  if (technicalTop === socialTop) {
+    return {
+      headline: `${altName(technicalTop)} is currently aligned across both lenses`,
+      body: "The technical evidence and the stakeholder compromise both point to the same alternative. That does not end the negotiation, but it gives the group a strong common base."
+    };
+  }
+  if (light.technical.ranking.order.slice(0, 2).includes(socialTop)) {
+    return {
+      headline: `${altName(socialTop)} looks like the best bridge option`,
+      body: "It leads socially while staying inside the technical top tier, which makes it a strong candidate if legitimacy matters as much as delivery."
+    };
+  }
+  return {
+    headline: "Technical feasibility and social legitimacy are pulling in different directions",
+    body: `${altName(technicalTop)} currently leads technically, while ${altName(socialTop)} leads socially. That gap needs explicit negotiation instead of being hidden inside one blended score.`
+  };
+}
+
+function renderCompareStep(light) {
+  const narrative = compareNarrative(light);
+  return `
+    <div class="step-kicker">Step 6</div>
+    <div class="step-header">
+      <div>
+        <h2>Compare outcomes</h2>
+        <p>Read the technical ranking and the social ranking together. This is the core SMCE move: separate evidence from stakeholder legitimacy, then compare them openly.</p>
+      </div>
+      <div class="step-progress">
+        <span class="summary-label">Current task</span>
+        <div class="summary-value">Read both rankings</div>
+        <p class="summary-copy">Look for convergence first. If the rankings diverge, use the gap as a negotiation topic instead of flattening it away.</p>
+      </div>
+    </div>
+    <div class="alignment-banner">
+      <strong>${esc(narrative.headline)}</strong>
+      <p class="summary-copy">${esc(narrative.body)}</p>
+    </div>
+    <div class="results-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top:16px;">
+      <section class="result-card">
+        <span class="summary-label">Technical ranking</span>
+        <h3 class="card-title">Impact matrix result</h3>
+        <p class="summary-copy">Weighted pairwise criterion wins using the current dimension and criterion weights.</p>
+        ${rankingMarkup(light.technical.ranking.order, light.technical.support, "support")}
+      </section>
+      <section class="result-card">
+        <span class="summary-label">Social ranking</span>
+        <h3 class="card-title">Stakeholder compromise result</h3>
+        <p class="summary-copy">Weighted pairwise stakeholder preference wins using the current actor influence settings.</p>
+        ${rankingMarkup(light.social.ranking.order, light.social.support, "support")}
+      </section>
+    </div>
+    ${renderNavigation()}
+  `;
+}
+
+function renderBarRows(items, labelGetter, valueGetter, widthGetter, fillStyle) {
+  return `
+    <div class="bar-stack">
+      ${items.map((item) => `
+        <div class="bar-row">
+          <div>${esc(labelGetter(item))}</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:${widthGetter(item)}%; ${typeof fillStyle === "function" ? fillStyle(item) : (fillStyle || "")}"></div>
+          </div>
+          <div>${esc(valueGetter(item))}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderStressTestStep(full) {
+  const changedCriteria = full.criterionSensitivity.filter((item) => item.changed).length;
+  const robustnessTop = Object.entries(full.robustness)
+    .map(([alternativeId, ranks]) => ({
+      alternativeId,
+      firstPlace: ranks[0] / uiState.simCount
+    }))
+    .sort((left, right) => right.firstPlace - left.firstPlace)[0];
+
+  return `
+    <div class="step-kicker">Step 7</div>
+    <div class="step-header">
+      <div>
+        <h2>Stress-test the result</h2>
+        <p>Check whether the current ranking survives changes in assumptions. This is where the group sees what is stable and what is fragile.</p>
+      </div>
+      <div class="step-progress">
+        <span class="summary-label">Current task</span>
+        <div class="summary-value">Probe the weak points</div>
+        <p class="summary-copy">Run the sensitivity checks, then use the results to decide what needs deeper negotiation or better evidence.</p>
+      </div>
+    </div>
+    <div class="stress-grid">
+      <section class="stress-card">
+        <span class="summary-label">What changes the outcome most?</span>
+        <div class="summary-value">${changedCriteria} criteria can flip the technical winner</div>
+        <p class="summary-copy">If removing a criterion changes the top technical option, the group should treat that criterion as politically important.</p>
+      </section>
+      <section class="stress-card">
+        <span class="summary-label">Most robust technical leader</span>
+        <div class="summary-value">${esc(altName(robustnessTop.alternativeId))}</div>
+        <p class="summary-copy">It finishes first in ${(robustnessTop.firstPlace * 100).toFixed(0)}% of random weighting simulations.</p>
+      </section>
+    </div>
+    <div class="stress-grid" style="margin-top:16px;">
+      <section class="stress-card">
+        <div class="card-head">
+          <div>
+            <span class="summary-label">Robustness settings</span>
+            <h3 class="card-title">Simulation controls</h3>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="simCount">Random weight simulations</label>
+            <input id="simCount" type="number" min="100" max="5000" step="100" data-role="sim-count" value="${uiState.simCount}">
+          </div>
+          <div class="field">
+            <label for="seedInput">Random seed</label>
+            <input id="seedInput" type="number" min="1" max="999999" step="1" data-role="seed-input" value="${uiState.seed}">
+          </div>
+        </div>
+        <p class="summary-copy">Higher simulation counts are slower but smoother. The seed keeps the run repeatable for workshop comparison.</p>
+      </section>
+      <section class="stress-card">
+        <span class="summary-label">Global robustness</span>
+        <h3 class="card-title">How often each alternative ranks first</h3>
+        ${renderBarRows(
+          state.alternatives
+            .map((alternative) => ({
+              name: alternative.name,
+              firstPlace: full.robustness[alternative.id][0] / uiState.simCount
+            }))
+            .sort((left, right) => right.firstPlace - left.firstPlace),
+          (item) => item.name,
+          (item) => `${(item.firstPlace * 100).toFixed(1)}%`,
+          (item) => (item.firstPlace * 100).toFixed(1),
+          ""
+        )}
+      </section>
+    </div>
+    <div class="stress-grid" style="margin-top:16px;">
+      <section class="stress-card">
+        <span class="summary-label">Criterion exclusion</span>
+        <h3 class="card-title">What happens if one criterion drops out?</h3>
+        ${renderBarRows(
+          full.criterionSensitivity,
+          (item) => item.criterion,
+          (item) => altName(item.topAlternative),
+          (item) => item.changed ? 100 : 56,
+          (item) => item.changed ? "background:linear-gradient(90deg, #934e5b 0%, #b56a79 100%);" : "background:linear-gradient(90deg, #436c45 0%, #6f9972 100%);"
+        )}
+      </section>
+      <section class="stress-card">
+        <span class="summary-label">Dimension boost to 50%</span>
+        <h3 class="card-title">Which alternative wins when one dimension dominates?</h3>
+        ${renderBarRows(
+          full.dimensionSensitivity,
+          (item) => item.dimension,
+          (item) => altName(item.topAlternative),
+          () => 100,
+          ""
+        )}
+      </section>
+    </div>
+    <section class="stress-card" style="margin-top:16px;">
+      <span class="summary-label">Actor boost to 50%</span>
+      <h3 class="card-title">Which alternative wins when one stakeholder dominates?</h3>
+      ${renderBarRows(
+        full.actorSensitivity,
+        (item) => item.actor,
+        (item) => altName(item.topAlternative),
+        () => 100,
+        "background:linear-gradient(90deg, #c57f4d 0%, #dbab7e 100%);"
+      )}
+    </section>
+    ${renderNavigation()}
+  `;
+}
+
+function buildRecommendation(full) {
+  const technicalTop = full.technical.ranking.order[0];
+  const socialTop = full.social.ranking.order[0];
+  const overlap = full.technical.ranking.order.slice(0, 2).includes(socialTop);
+  const robustnessTop = Object.entries(full.robustness)
+    .map(([alternativeId, ranks]) => ({
+      alternativeId,
+      firstPlace: ranks[0]
+    }))
+    .sort((left, right) => right.firstPlace - left.firstPlace)[0];
+
+  if (technicalTop === socialTop) {
+    return {
+      headline: `${altName(technicalTop)} is the current convergence candidate`,
+      body: "It leads both the technical and social rankings, so it is the strongest immediate base for a collective erfpacht draft.",
+      direction: `Start drafting from ${altName(technicalTop)}, then bring in mission-lock, representation, and phasing clauses that protect its strongest social and ecological qualities.`
+    };
+  }
+
+  if (overlap) {
+    return {
+      headline: `${altName(socialTop)} is the best bridge option right now`,
+      body: "It wins the social compromise ranking while staying within the top technical tier, which makes it a strong basis if legitimacy matters as much as delivery.",
+      direction: `Use ${altName(socialTop)} as the starting negotiation package and borrow delivery safeguards from ${altName(technicalTop)} where needed.`
+    };
+  }
+
+  return {
+    headline: "The current result points to a negotiation split",
+    body: `${altName(technicalTop)} is strongest technically, while ${altName(socialTop)} is strongest socially. The group should treat them as the two-option negotiation set rather than forcing a premature single winner.`,
+    direction: `Draft a hybrid path between ${altName(technicalTop)} and ${altName(socialTop)}, and test whether the coalition can accept the delivery trade-offs.`
+  };
+}
+
+function buildNegotiationInsights(full) {
+  const pairs = [];
+  state.actors.forEach((left, leftIndex) => {
+    state.actors.slice(leftIndex + 1).forEach((right) => {
+      pairs.push({
+        left: left.label,
+        right: right.label,
+        distance: full.distances[left.id][right.id]
+      });
+    });
+  });
+
+  pairs.sort((left, right) => left.distance - right.distance);
+  const closest = pairs[0];
+  const furthest = pairs[pairs.length - 1];
+  const robustnessTop = Object.entries(full.robustness)
+    .map(([alternativeId, ranks]) => ({
+      alternativeId,
+      firstPlace: ranks[0]
+    }))
+    .sort((left, right) => right.firstPlace - left.firstPlace)[0];
+
+  return `
+    <ul class="insight-list">
+      <li>The closest coalition in current preference space is <strong>${esc(closest.left)}</strong> + <strong>${esc(closest.right)}</strong> (distance ${closest.distance.toFixed(2)}).</li>
+      <li>The hardest alignment gap is between <strong>${esc(furthest.left)}</strong> and <strong>${esc(furthest.right)}</strong> (distance ${furthest.distance.toFixed(2)}).</li>
+      <li><strong>${esc(altName(robustnessTop.alternativeId))}</strong> is the most stable technical leader under random weighting.</li>
+      <li>The negotiation should start by comparing technical rank #1 <strong>${esc(altName(full.technical.ranking.order[0]))}</strong> with social rank #1 <strong>${esc(altName(full.social.ranking.order[0]))}</strong>.</li>
+    </ul>
+  `;
+}
+
+function renderDistanceMatrix(matrix) {
+  return `
+    <div class="matrix">
+      <table>
+        <thead>
+          <tr>
+            <th class="matrix-label">Actor</th>
+            ${state.actors.map((actor) => `<th>${esc(actor.label)}</th>`).join("")}
+          </tr>
+        </thead>
+        <tbody>
+          ${state.actors.map((left) => `
+            <tr>
+              <td class="matrix-label"><strong>${esc(left.label)}</strong></td>
+              ${state.actors.map((right) => `<td>${matrixCell(matrix[left.id][right.id])}</td>`).join("")}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function exportScenario() {
+  const payload = {
+    ...deepClone(state),
+    analysis: getFullAnalysis(),
+    meta: {
+      exportedAt: new Date().toISOString(),
+      step: uiState.currentStep + 1,
+      simCount: uiState.simCount,
+      seed: uiState.seed
+    }
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
   link.download = "marineterrein-smce-scenario.json";
   link.click();
   URL.revokeObjectURL(url);
+}
+
+function renderAgreementStep(full) {
+  const recommendation = buildRecommendation(full);
+  return `
+    <div class="step-kicker">Step 8</div>
+    <div class="step-header">
+      <div>
+        <h2>Agreement direction</h2>
+        <p>Use the technical result, social result, robustness checks, and coalition map to frame a credible next draft for the collective erfpacht agreement.</p>
+      </div>
+      <div class="step-progress">
+        <span class="summary-label">Current task</span>
+        <div class="summary-value">Draft the path forward</div>
+        <p class="summary-copy">The recommendation below is not a final answer. It is a structured starting point for human negotiation.</p>
+      </div>
+    </div>
+    <section class="alignment-banner">
+      <strong>${esc(recommendation.headline)}</strong>
+      <p class="summary-copy">${esc(recommendation.body)}</p>
+    </section>
+    <div class="results-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top:16px;">
+      <section class="result-card">
+        <span class="summary-label">Draft collective erfpacht direction</span>
+        <div class="summary-value">${esc(recommendation.direction)}</div>
+        <p class="summary-copy">Use this as the opening draft position, then test clause-by-clause where the coalition can hold.</p>
+        <div class="status-row">
+          <span class="status-pill success">Technical #1: ${esc(altName(full.technical.ranking.order[0]))}</span>
+          <span class="status-pill success">Social #1: ${esc(altName(full.social.ranking.order[0]))}</span>
+        </div>
+      </section>
+      <section class="result-card">
+        <span class="summary-label">Workshop handoff</span>
+        <h3 class="card-title">Export the current scenario</h3>
+        <p class="summary-copy">The export includes the current Marineterrein scenario, computed rankings, and the current simulation settings.</p>
+        <div class="nav-actions" style="margin-top:6px;">
+          <button type="button" class="button accent" data-action="export-json">Export scenario JSON</button>
+        </div>
+      </section>
+    </div>
+    <section class="result-card" style="margin-top:16px;">
+      <span class="summary-label">Stakeholder distance matrix</span>
+      <h3 class="card-title">Where coalition-building looks easy or hard</h3>
+      <p class="summary-copy">Lower values mean two stakeholder groups are already closer in how they judge the alternatives.</p>
+      ${renderDistanceMatrix(full.distances)}
+    </section>
+    <section class="result-card" style="margin-top:16px;">
+      <span class="summary-label">Negotiation insights</span>
+      <h3 class="card-title">What the coalition map is telling you</h3>
+      ${buildNegotiationInsights(full)}
+    </section>
+    ${renderNavigation()}
+  `;
+}
+
+function renderStepPanel() {
+  const light = getLightAnalysis();
+  let html = "";
+  if (uiState.currentStep === 0) {
+    html = renderAlternativesStep();
+  } else if (uiState.currentStep === 1) {
+    html = renderGoalsStep();
+  } else if (uiState.currentStep === 2) {
+    html = renderImpactStep();
+  } else if (uiState.currentStep === 3) {
+    html = renderStakeholderStep();
+  } else if (uiState.currentStep === 4) {
+    html = renderFairnessStep();
+  } else if (uiState.currentStep === 5) {
+    html = renderCompareStep(light);
+  } else if (uiState.currentStep === 6) {
+    html = renderStressTestStep(getFullAnalysis());
+  } else {
+    html = renderAgreementStep(getFullAnalysis());
+  }
+  document.getElementById("stepPanel").innerHTML = html;
+}
+
+function updateAutosaveStatus() {
+  document.getElementById("autosaveStatus").textContent = uiState.lastSavedAt ? `Autosaved ${uiState.lastSavedAt}` : "Session autosave on";
+}
+
+function render() {
+  const light = getLightAnalysis();
+  renderHeroSummary(light);
+  renderStepBar();
+  renderStepHelper();
+  renderSnapshot(light);
+  renderStepPanel();
+  updateAutosaveStatus();
+}
+
+function mutateAndRender(fn, rerender = true) {
+  fn();
+  clearAnalysisCache();
+  saveSession();
+  if (rerender) {
+    render();
+  } else {
+    updateAutosaveStatus();
+  }
+}
+
+function setAlternativeName(index, value) {
+  state.alternatives[index].name = value.trim() || "";
+}
+
+function setAlternativeDescription(index, value) {
+  state.alternatives[index].description = value;
+}
+
+function setDimensionWeight(index, value) {
+  state.dimensions[index].weight = clampNumber(value, 0, 100, state.dimensions[index].weight);
+}
+
+function setCriterionWeight(dimensionIndex, criterionIndex, value) {
+  state.dimensions[dimensionIndex].criteria[criterionIndex].weight = clampNumber(value, 0, 100, state.dimensions[dimensionIndex].criteria[criterionIndex].weight);
+}
+
+function setCriterionGoal(dimensionIndex, criterionIndex, goal) {
+  state.dimensions[dimensionIndex].criteria[criterionIndex].goal = goal === "min" ? "min" : "max";
+}
+
+function setScore(criterionId, altId, value) {
+  state.scores[criterionId][altId] = clampNumber(value, 1, 5, state.scores[criterionId][altId]);
+}
+
+function setActorWeight(actorIndex, value) {
+  state.actors[actorIndex].weight = clampNumber(value, 0, 100, state.actors[actorIndex].weight);
+}
+
+function setActorRating(actorIndex, altId, value) {
+  state.actors[actorIndex].ratings[altId] = clampNumber(value, 1, 5, state.actors[actorIndex].ratings[altId]);
+}
+
+document.addEventListener("click", (event) => {
+  const jumpButton = event.target.closest("[data-action='jump-step']");
+  if (jumpButton) {
+    const stepIndex = Number(jumpButton.dataset.stepIndex);
+    if (stepIndex <= uiState.maxUnlockedStep) {
+      goToStep(stepIndex);
+    }
+    return;
+  }
+
+  const nextButton = event.target.closest("[data-action='next-step']");
+  if (nextButton) {
+    nextStep();
+    return;
+  }
+
+  const prevButton = event.target.closest("[data-action='prev-step']");
+  if (prevButton) {
+    previousStep();
+    return;
+  }
+
+  const goalButton = event.target.closest("[data-action='set-goal']");
+  if (goalButton) {
+    mutateAndRender(() => {
+      setCriterionGoal(Number(goalButton.dataset.dimensionIndex), Number(goalButton.dataset.criterionIndex), goalButton.dataset.goal);
+    });
+    return;
+  }
+
+  const scoreButton = event.target.closest("[data-action='set-score']");
+  if (scoreButton) {
+    mutateAndRender(() => {
+      setScore(scoreButton.dataset.criterionId, scoreButton.dataset.altId, Number(scoreButton.dataset.value));
+    });
+    return;
+  }
+
+  const ratingButton = event.target.closest("[data-action='set-rating']");
+  if (ratingButton) {
+    mutateAndRender(() => {
+      setActorRating(Number(ratingButton.dataset.actorIndex), ratingButton.dataset.altId, Number(ratingButton.dataset.value));
+    });
+    return;
+  }
+
+  const tabButton = event.target.closest("[data-action='select-actor-tab']");
+  if (tabButton) {
+    uiState.activeActorIndex = clampNumber(tabButton.dataset.actorIndex, 0, state.actors.length - 1, uiState.activeActorIndex);
+    uiState.validationMessage = "";
+    saveSession();
+    render();
+    return;
+  }
+
+  const exportButton = event.target.closest("[data-action='export-json']");
+  if (exportButton) {
+    exportScenario();
+  }
 });
 
-renderAll();
+document.addEventListener("input", (event) => {
+  const target = event.target;
+
+  if (target.matches("[data-role='alt-name']")) {
+    mutateAndRender(() => {
+      setAlternativeName(Number(target.dataset.index), target.value);
+    }, false);
+    return;
+  }
+
+  if (target.matches("[data-role='alt-desc']")) {
+    mutateAndRender(() => {
+      setAlternativeDescription(Number(target.dataset.index), target.value);
+    }, false);
+    return;
+  }
+
+  if (target.matches("[data-role='dimension-weight-range'], [data-role='dimension-weight-number']")) {
+    mutateAndRender(() => {
+      setDimensionWeight(Number(target.dataset.dimensionIndex), target.value);
+    });
+    return;
+  }
+
+  if (target.matches("[data-role='criterion-weight-range'], [data-role='criterion-weight-number']")) {
+    mutateAndRender(() => {
+      setCriterionWeight(Number(target.dataset.dimensionIndex), Number(target.dataset.criterionIndex), target.value);
+    });
+    return;
+  }
+
+  if (target.matches("[data-role='actor-weight-range'], [data-role='actor-weight-number']")) {
+    mutateAndRender(() => {
+      setActorWeight(Number(target.dataset.actorIndex), target.value);
+    });
+    return;
+  }
+
+  if (target.matches("[data-role='sim-count']")) {
+    mutateAndRender(() => {
+      uiState.simCount = clampNumber(target.value, 100, 5000, uiState.simCount);
+    });
+    return;
+  }
+
+  if (target.matches("[data-role='seed-input']")) {
+    mutateAndRender(() => {
+      uiState.seed = clampNumber(target.value, 1, 999999, uiState.seed);
+    });
+  }
+});
+
+document.addEventListener("change", (event) => {
+  const target = event.target;
+  if (target.matches("[data-role='alt-name'], [data-role='alt-desc']")) {
+    render();
+  }
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  resetAll();
+});
+
+loadSession();
+render();
 </script>
 </body>
 </html>
